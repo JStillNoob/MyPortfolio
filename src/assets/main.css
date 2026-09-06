@@ -1,0 +1,149 @@
+/* =============================================
+   GLOBAL RESET & BASE STYLES
+   ============================================= */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* ── Pastel Charcoal Palette ── */
+  --bg-primary:       #18181c;
+  --bg-secondary:     #1f1f25;
+  --bg-card:          #25252d;
+  --bg-card-hover:    #2c2c36;
+  --border:           #36363f;
+  --border-subtle:    #2a2a33;
+
+  /* ── Pastel Text ── */
+  --text-primary:     #ffffff;
+  --text-secondary:   #a8a4be;
+  --text-muted:       #6b677e;
+
+  /* ── Pastel Accent Tones ── */
+  --accent:           #c5beff;
+  --accent-dim:       rgba(197, 190, 255, 0.08);
+  --accent-glow:      rgba(197, 190, 255, 0.04);
+
+  /* ── Pastel Status Colors ── */
+  --pastel-green:     #a8dbc5;
+  --pastel-amber:     #e5c89a;
+  --pastel-blue:      #9ec5e8;
+
+  /* ── Fonts ── */
+  --font-sans:        'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono:        'JetBrains Mono', 'Fira Code', monospace;
+
+  /* ── Border Radius ── */
+  --radius-sm:        8px;
+  --radius-md:        14px;
+  --radius-lg:        20px;
+  --radius-full:      9999px;
+
+  /* ── Transitions ── */
+  --transition:       0.22s ease;
+
+  /* ── Shadows ── */
+  --shadow-sm:        0 2px 6px rgba(0, 0, 0, 0.35);
+  --shadow-md:        0 6px 24px rgba(0, 0, 0, 0.45);
+  --shadow-lg:        0 12px 48px rgba(0, 0, 0, 0.55);
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 17px;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* =============================================
+   SCROLLBAR STYLING
+   ============================================= */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* =============================================
+   UTILITY CLASSES
+   ============================================= */
+.container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 44px;
+}
+
+.section {
+  padding: 120px 0;
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 30px;
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(18px);
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Staggered animation delays */
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+.delay-4 { animation-delay: 0.4s; }
+.delay-5 { animation-delay: 0.5s; }
+.delay-6 { animation-delay: 0.6s; }
+
+/* Divider */
+.divider {
+  height: 1px;
+  background: var(--border-subtle);
+  margin: 0;
+}
