@@ -9,8 +9,9 @@
   padding: 0;
 }
 
-:root {
-  /* ── Pastel Charcoal Palette ── */
+:root,
+html.dark {
+  /* ── Pastel Charcoal Palette (Dark) ── */
   --bg-primary:       #18181c;
   --bg-secondary:     #1f1f25;
   --bg-card:          #25252d;
@@ -24,7 +25,7 @@
   --text-muted:       #6b677e;
 
   /* ── Pastel Accent Tones ── */
-  --accent:           #c5beff;
+  --accent:           #f6f6f6;
   --accent-dim:       rgba(197, 190, 255, 0.08);
   --accent-glow:      rgba(197, 190, 255, 0.04);
 
@@ -50,6 +51,77 @@
   --shadow-sm:        0 2px 6px rgba(0, 0, 0, 0.35);
   --shadow-md:        0 6px 24px rgba(0, 0, 0, 0.45);
   --shadow-lg:        0 12px 48px rgba(0, 0, 0, 0.55);
+
+  /* ── Scrolled background ── */
+  --nav-bg-scrolled:  rgba(24, 24, 28, 0.92);
+  --sidebar-gradient: linear-gradient(to right, rgba(24, 24, 28, 0.97) 0%, rgba(24, 24, 28, 0.7) 80%, transparent 100%);
+
+  /* ── Primary Button (Dark Mode: Crisp Light Button) ── */
+  --btn-primary-bg:         #f6f6f6;
+  --btn-primary-bg-hover:   #ffffff;
+  --btn-primary-text:       #18181c;
+  --btn-primary-shadow:     0 0 28px rgba(255, 255, 255, 0.25);
+}
+
+html.light {
+  /* ── Light Palette ── */
+  --bg-primary:       #f7f7fa;
+  --bg-secondary:     #ededf3;
+  --bg-card:          #ffffff;
+  --bg-card-hover:    #f3f2f8;
+  --border:           #dfdce8;
+  --border-subtle:    #ebe8f2;
+
+  /* ── Light Text ── */
+  --text-primary:     #17161c;
+  --text-secondary:   #575369;
+  --text-muted:       #858199;
+
+  /* ── Light Accent Tones ── */
+  --accent:           #6e5ef5;
+  --accent-dim:       rgba(110, 94, 245, 0.08);
+  --accent-glow:      rgba(110, 94, 245, 0.04);
+
+  /* ── Light Status Colors ── */
+  --pastel-green:     #15803d;
+  --pastel-amber:     #b45309;
+  --pastel-blue:      #1d4ed8;
+
+  /* ── Light Shadows ── */
+  --shadow-sm:        0 2px 6px rgba(0, 0, 0, 0.06);
+  --shadow-md:        0 6px 20px rgba(0, 0, 0, 0.08);
+  --shadow-lg:        0 12px 40px rgba(0, 0, 0, 0.12);
+
+  /* ── Scrolled background ── */
+  --nav-bg-scrolled:  rgba(247, 247, 250, 0.92);
+  --sidebar-gradient: linear-gradient(to right, rgba(247, 247, 250, 0.97) 0%, rgba(247, 247, 250, 0.7) 80%, transparent 100%);
+
+  /* ── Primary Button (Light Mode: Crisp Dark Button) ── */
+  --btn-primary-bg:         #18181c;
+  --btn-primary-bg-hover:   #2c2c38;
+  --btn-primary-text:       #ffffff;
+  --btn-primary-shadow:     0 6px 20px rgba(24, 24, 28, 0.18);
+}
+
+/* =============================================
+   VIEW TRANSITIONS (Magic UI)
+   ============================================= */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-old(root) {
+  z-index: 1;
+}
+::view-transition-new(root) {
+  z-index: 9999;
+}
+html[data-magicui-theme-vt="active"]::view-transition-group(root) {
+  animation-duration: var(--magicui-theme-toggle-vt-duration, 400ms);
+}
+html[data-magicui-theme-vt="active"]::view-transition-new(root) {
+  clip-path: var(--magicui-theme-vt-clip-from);
 }
 
 html {

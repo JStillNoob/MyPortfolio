@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { ref, onMounted, onUnmounted } from 'vue'
 import NavBar from './components/NavBar.vue'
+import LineSidebar from './components/LineSidebar.vue'
+import { useTheme } from './composables/useTheme'
 import HeroSection from './components/HeroSection.vue'
 import AboutSection from './components/AboutSection.vue'
 import EducationSection from './components/EducationSection.vue'
@@ -9,6 +12,35 @@ import ContactSection from './components/ContactSection.vue'
 import FooterSection from './components/FooterSection.vue'
 import LogoLoop from './components/LogoLoop.vue'
 import type { LogoItem } from './components/LogoLoop.vue'
+
+const { isDark } = useTheme()
+
+const navItems = ['About Jessie', 'My Experience', 'Things Ive Built', 'Projects', 'Skills', 'Contact']
+const sectionIds = ['home', 'about', 'education', 'projects', 'skills', 'contact']
+const activeNav = ref(0)
+
+const handleNavClick = (index: number) => {
+  const id = sectionIds[index]
+  if (!id) return
+  const el = document.getElementById(id)
+  if (el) el.scrollIntoView({ behavior: 'smooth' })
+  activeNav.value = index
+}
+
+const onScroll = () => {
+  const scrollY = window.scrollY + window.innerHeight / 3
+  let current = 0
+  for (let i = 0; i < sectionIds.length; i++) {
+    const id = sectionIds[i]
+    if (!id) continue
+    const el = document.getElementById(id)
+    if (el && el.offsetTop <= scrollY) current = i
+  }
+  activeNav.value = current
+}
+
+onMounted(() => window.addEventListener('scroll', onScroll, { passive: true }))
+onUnmounted(() => window.removeEventListener('scroll', onScroll))
 
 // Helper to create a pill badge node string
 const badge = (svgPath: string, label: string) =>
@@ -49,53 +81,101 @@ const row3: LogoItem[] = [
 </script>
 
 <template>
-  <div id="app">
+  <div id="app" class="app-layout">
     <NavBar />
-    <main>
+
+    <!-- Fixed left sidebar -->
+    <aside class="sidebar-shell">
+      
+      <LineSidebar
+        :items="navItems"
+        :accent-color="isDark ? '#f6f6f6' : '#18181c'"
+        :text-color="isDark ? '#666' : '#8c8c9a'"
+        :marker-color="isDark ? '#3a3a3a' : '#c8c8d0'"
+        :show-index="true"
+        :show-marker="true"
+        :proximity-radius="200"
+        :max-shift="65"
+        falloff="smooth"
+        :marker-length="110"
+        :marker-gap="0"
+        :tick-scale="0.5"
+        :scale-tick="true"
+        :item-gap="48"
+        :font-size="1.65"
+        :smoothing="70"
+        :default-active="activeNav"
+        @item-click="handleNavClick"
+      />
+    </aside>
+
+    <!-- Scrollable content -->
+    <main class="main-content">
       <HeroSection />
-
-      <!-- Tech Stack LogoLoop Marquee -->
-      <div class="logoloop-section">
-        <LogoLoop
-          :logos="row1"
-          :speed="60"
-          direction="left"
-          :logo-height="16"
-          :gap="12"
-          :hover-speed="0"
-          :fade-out="true"
-        />
-        <LogoLoop
-          :logos="row2"
-          :speed="50"
-          direction="right"
-          :logo-height="16"
-          :gap="12"
-          :hover-speed="0"
-          :fade-out="true"
-        />
-        <LogoLoop
-          :logos="row3"
-          :speed="70"
-          direction="left"
-          :logo-height="16"
-          :gap="12"
-          :hover-speed="0"
-          :fade-out="true"
-        />
-      </div>
-
       <AboutSection />
       <EducationSection />
       <ProjectsSection />
       <SkillsSection />
       <ContactSection />
+      <FooterSection />
     </main>
-    <FooterSection />
   </div>
 </template>
 
 <style scoped>
+/* ── Layout shell ──────────────────────────────────────────── */
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ── Fixed sidebar ─────────────────────────────────────────── */
+.sidebar-shell {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 340px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  padding: 0 0 0 48px;
+  z-index: 100;
+  background: var(--sidebar-gradient);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.sidebar-logo {
+  position: absolute;
+  top: 36px;
+  left: 40px;
+  font-family: var(--font-mono);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-primary);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 8px 18px;
+  border-radius: var(--radius-sm);
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  transition: border-color 0.2s, color 0.2s;
+}
+.sidebar-logo:hover {
+  border-color: #c5beff;
+  color: #c5beff;
+}
+
+/* ── Main scrollable area ──────────────────────────────────── */
+.main-content {
+  margin-left: 340px;
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Logo strip ────────────────────────────────────────────── */
 .logoloop-section {
   padding: 40px 0;
   display: flex;
@@ -105,5 +185,15 @@ const row3: LogoItem[] = [
   width: 100%;
   max-width: 880px;
   margin: 0 auto;
+}
+
+/* ── Mobile: hide sidebar, go back to stacked ──────────────── */
+@media (max-width: 700px) {
+  .sidebar-shell {
+    display: none;
+  }
+  .main-content {
+    margin-left: 0;
+  }
 }
 </style>
