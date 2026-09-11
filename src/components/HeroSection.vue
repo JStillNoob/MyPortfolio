@@ -1,5 +1,10 @@
 <script setup lang="ts">
 import PixelTransition from './PixelTransition.vue';
+import { useTheme } from '../composables/useTheme';
+import { useRouter } from 'vue-router';
+
+const { isDark } = useTheme();
+const router = useRouter();
 
 const imgPrimary = '/jessie_pixel_image.png';
 const imgSecondary = '/resumeIMG.png';
@@ -29,14 +34,24 @@ const socials = [
 </script>
 
 <template>
-  <section id="home" class="hero section">
+  <section id="about" class="hero section">
     <div class="container">
+      <!-- Top div for View More button link -->
+      <div class="section-top-bar">
+        <button class="view-more-btn" @click="router.push('/about-more')">
+          <span>View More</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+          </svg>
+        </button>
+      </div>
+
       <!-- Avatar + Name row -->
       <div class="hero-identity fade-in">
         <div class="avatar-wrapper">
           <PixelTransition
             :grid-size="10"
-            pixel-color="#ffffff"
+            :pixel-color="isDark ? '#f6f6f6' : '#18181c'"
             :animation-step-duration="0.35"
             class-name="avatar-pixel-card"
           >
@@ -82,11 +97,10 @@ const socials = [
 
       <!-- CTA row -->
       <div class="hero-cta fade-in delay-3">
-        <a href="#projects" class="btn btn-primary">
+        <button class="btn btn-primary" @click="router.push('/projects')">
           View Projects
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </a>
-        
+        </button>
       </div>
 
       <!-- Tech badge strip -->
@@ -97,9 +111,13 @@ const socials = [
 
 <style scoped>
 .hero {
-  padding-top: 130px;
-  padding-bottom: 110px;
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding-top: 108px;
+  padding-bottom: 60px;
 }
+
+
 
 /* Identity row */
 .hero-identity {
@@ -107,6 +125,7 @@ const socials = [
   align-items: center;
   gap: 26px;
   margin-bottom: 30px;
+  flex-wrap: wrap;
 }
 
 .avatar-wrapper {
@@ -221,8 +240,8 @@ const socials = [
   color: var(--btn-primary-text, #18181c);
 }
 .btn-primary:hover {
-  background: var(--btn-primary-bg-hover, #ffffff);
-  box-shadow: var(--btn-primary-shadow, 0 0 28px rgba(255, 255, 255, 0.3));
+  background: var(--btn-primary-bg-hover, #f6f6f6);
+  box-shadow: var(--btn-primary-shadow, 0 0 24px rgba(246, 246, 246, 0.2));
   transform: translateY(-1px);
 }
 
@@ -246,7 +265,7 @@ const socials = [
 }
 .tech-badge:hover {
   color: var(--accent);
-  border-color: rgba(197, 190, 255, 0.3);
+  border-color: var(--border);
 }
 
 @media (max-width: 480px) {
@@ -261,14 +280,14 @@ const socials = [
   border-radius: 50%;
   overflow: hidden;
   border: 2px solid var(--border);
-  box-shadow: 0 0 0 0 rgba(197, 190, 255, 0);
+  box-shadow: none;
   transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
   flex-shrink: 0;
 }
 
 .avatar-wrapper:hover {
   border-color: var(--accent);
-  box-shadow: 0 0 28px rgba(197, 190, 255, 0.3);
+  box-shadow: 0 0 24px var(--accent-dim);
   transform: scale(1.03);
 }
 

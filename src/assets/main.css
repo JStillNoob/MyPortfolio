@@ -11,28 +11,28 @@
 
 :root,
 html.dark {
-  /* ── Pastel Charcoal Palette (Dark) ── */
+  /* ── Duo-Tone Charcoal Palette (#18181c & #f6f6f6) ── */
   --bg-primary:       #18181c;
-  --bg-secondary:     #1f1f25;
-  --bg-card:          #25252d;
-  --bg-card-hover:    #2c2c36;
-  --border:           #36363f;
-  --border-subtle:    #2a2a33;
+  --bg-secondary:     #18181c;
+  --bg-card:          rgba(246, 246, 246, 0.04);
+  --bg-card-hover:    rgba(246, 246, 246, 0.08);
+  --border:           rgba(246, 246, 246, 0.12);
+  --border-subtle:    rgba(246, 246, 246, 0.06);
 
-  /* ── Pastel Text ── */
-  --text-primary:     #ffffff;
-  --text-secondary:   #a8a4be;
-  --text-muted:       #6b677e;
+  /* ── Text ── */
+  --text-primary:     #f6f6f6;
+  --text-secondary:   rgba(246, 246, 246, 0.72);
+  --text-muted:       rgba(246, 246, 246, 0.45);
 
-  /* ── Pastel Accent Tones ── */
+  /* ── Accent Tones ── */
   --accent:           #f6f6f6;
-  --accent-dim:       rgba(197, 190, 255, 0.08);
-  --accent-glow:      rgba(197, 190, 255, 0.04);
+  --accent-dim:       rgba(246, 246, 246, 0.08);
+  --accent-glow:      rgba(246, 246, 246, 0.04);
 
-  /* ── Pastel Status Colors ── */
-  --pastel-green:     #a8dbc5;
-  --pastel-amber:     #e5c89a;
-  --pastel-blue:      #9ec5e8;
+  /* ── Status Colors ── */
+  --pastel-green:     #f6f6f6;
+  --pastel-amber:     #f6f6f6;
+  --pastel-blue:      #f6f6f6;
 
   /* ── Fonts ── */
   --font-sans:        'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -48,58 +48,58 @@ html.dark {
   --transition:       0.22s ease;
 
   /* ── Shadows ── */
-  --shadow-sm:        0 2px 6px rgba(0, 0, 0, 0.35);
-  --shadow-md:        0 6px 24px rgba(0, 0, 0, 0.45);
-  --shadow-lg:        0 12px 48px rgba(0, 0, 0, 0.55);
+  --shadow-sm:        0 2px 6px rgba(0, 0, 0, 0.4);
+  --shadow-md:        0 6px 24px rgba(0, 0, 0, 0.5);
+  --shadow-lg:        0 12px 48px rgba(0, 0, 0, 0.6);
 
   /* ── Scrolled background ── */
   --nav-bg-scrolled:  rgba(24, 24, 28, 0.92);
-  --sidebar-gradient: linear-gradient(to right, rgba(24, 24, 28, 0.97) 0%, rgba(24, 24, 28, 0.7) 80%, transparent 100%);
+  --sidebar-gradient: linear-gradient(to right, rgba(24, 24, 28, 0.98) 0%, rgba(24, 24, 28, 0.75) 80%, transparent 100%);
 
-  /* ── Primary Button (Dark Mode: Crisp Light Button) ── */
+  /* ── Primary Button (Crisp Light Button) ── */
   --btn-primary-bg:         #f6f6f6;
-  --btn-primary-bg-hover:   #ffffff;
+  --btn-primary-bg-hover:   rgba(246, 246, 246, 0.88);
   --btn-primary-text:       #18181c;
-  --btn-primary-shadow:     0 0 28px rgba(255, 255, 255, 0.25);
+  --btn-primary-shadow:     0 0 24px rgba(246, 246, 246, 0.2);
 }
 
 html.light {
-  /* ── Light Palette ── */
-  --bg-primary:       #f7f7fa;
-  --bg-secondary:     #ededf3;
-  --bg-card:          #ffffff;
-  --bg-card-hover:    #f3f2f8;
-  --border:           #dfdce8;
-  --border-subtle:    #ebe8f2;
+  /* ── Duo-Tone Inverted Palette ── */
+  --bg-primary:       #f6f6f6;
+  --bg-secondary:     #f6f6f6;
+  --bg-card:          rgba(24, 24, 28, 0.04);
+  --bg-card-hover:    rgba(24, 24, 28, 0.08);
+  --border:           rgba(24, 24, 28, 0.12);
+  --border-subtle:    rgba(24, 24, 28, 0.06);
 
   /* ── Light Text ── */
-  --text-primary:     #17161c;
-  --text-secondary:   #575369;
-  --text-muted:       #858199;
+  --text-primary:     #18181c;
+  --text-secondary:   rgba(24, 24, 28, 0.72);
+  --text-muted:       rgba(24, 24, 28, 0.45);
 
   /* ── Light Accent Tones ── */
-  --accent:           #6e5ef5;
-  --accent-dim:       rgba(110, 94, 245, 0.08);
-  --accent-glow:      rgba(110, 94, 245, 0.04);
+  --accent:           #18181c;
+  --accent-dim:       rgba(24, 24, 28, 0.08);
+  --accent-glow:      rgba(24, 24, 28, 0.04);
 
   /* ── Light Status Colors ── */
-  --pastel-green:     #15803d;
-  --pastel-amber:     #b45309;
-  --pastel-blue:      #1d4ed8;
+  --pastel-green:     #18181c;
+  --pastel-amber:     #18181c;
+  --pastel-blue:      #18181c;
 
   /* ── Light Shadows ── */
-  --shadow-sm:        0 2px 6px rgba(0, 0, 0, 0.06);
-  --shadow-md:        0 6px 20px rgba(0, 0, 0, 0.08);
-  --shadow-lg:        0 12px 40px rgba(0, 0, 0, 0.12);
+  --shadow-sm:        0 2px 6px rgba(24, 24, 28, 0.06);
+  --shadow-md:        0 6px 20px rgba(24, 24, 28, 0.08);
+  --shadow-lg:        0 12px 40px rgba(24, 24, 28, 0.12);
 
   /* ── Scrolled background ── */
-  --nav-bg-scrolled:  rgba(247, 247, 250, 0.92);
-  --sidebar-gradient: linear-gradient(to right, rgba(247, 247, 250, 0.97) 0%, rgba(247, 247, 250, 0.7) 80%, transparent 100%);
+  --nav-bg-scrolled:  rgba(246, 246, 246, 0.92);
+  --sidebar-gradient: linear-gradient(to right, rgba(246, 246, 246, 0.98) 0%, rgba(246, 246, 246, 0.75) 80%, transparent 100%);
 
-  /* ── Primary Button (Light Mode: Crisp Dark Button) ── */
+  /* ── Primary Button (Crisp Dark Button) ── */
   --btn-primary-bg:         #18181c;
-  --btn-primary-bg-hover:   #2c2c38;
-  --btn-primary-text:       #ffffff;
+  --btn-primary-bg-hover:   rgba(24, 24, 28, 0.88);
+  --btn-primary-text:       #f6f6f6;
   --btn-primary-shadow:     0 6px 20px rgba(24, 24, 28, 0.18);
 }
 
@@ -179,7 +179,10 @@ button {
 }
 
 .section {
-  padding: 120px 0;
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 108px 0 60px 0;
+  scroll-margin-top: 0;
 }
 
 .section-label {
@@ -218,4 +221,105 @@ button {
   height: 1px;
   background: var(--border-subtle);
   margin: 0;
+}
+
+/* =============================================
+   SHARED SECTION UTILITIES
+   Used across all section components — do not
+   duplicate these inside individual components.
+   ============================================= */
+
+/* Top bar with "View More" link aligned right */
+.section-top-bar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* View More button shared style */
+.view-more-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: transparent;
+  border: none;
+  padding: 4px 0;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 400;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color var(--transition), transform var(--transition);
+}
+.view-more-btn:hover {
+  color: var(--text-primary);
+  transform: translateX(4px);
+}
+
+/* Section heading shared style */
+.section-title {
+  font-size: 30px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+/* Section header block */
+.section-header {
+  margin-bottom: 36px;
+}
+
+/* ── "View More" standalone page layout ─────────────────── */
+/* Wraps full-page views like ExperienceView, ProjectsView */
+.page-view {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-view .container {
+  flex: 1;
+  padding-top: 108px;
+  padding-bottom: 60px;
+}
+
+/* Back button used in standalone pages */
+.back-btn-global {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: transparent;
+  border: none;
+  padding: 4px 0;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  font-weight: 400;
+  cursor: pointer;
+  margin-bottom: 48px;
+  transition: color var(--transition), transform var(--transition);
+}
+.back-btn-global:hover {
+  color: var(--text-primary);
+  transform: translateX(-3px);
+}
+
+/* Page title for standalone pages */
+.page-title {
+  font-size: 38px;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  line-height: 1.15;
+  margin-bottom: 10px;
+}
+
+.page-subtitle {
+  font-size: 15.5px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 56px;
 }

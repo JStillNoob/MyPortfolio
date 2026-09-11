@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const form = ref({
   name: '',
@@ -43,8 +46,18 @@ const contactLinks = [
 <template>
   <section id="contact" class="section">
     <div class="container">
-      <p class="section-label">Contact</p>
-      <h2 class="section-title">Let's work together</h2>
+      <div class="section-top-bar">
+        <button class="view-more-btn" @click="router.push('/contact')">
+          <span>View More</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="section-header">
+        <h2 class="section-title">Let's work together</h2>
+      </div>
       <p class="contact-intro">
         I'm open to full-time roles, freelance projects, or just a good conversation
         about tech. Drop me a message and I'll get back to you within 24 hours.
@@ -131,13 +144,6 @@ const contactLinks = [
 </template>
 
 <style scoped>
-.section-title {
-  font-size: 30px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: var(--text-primary);
-  margin-bottom: 14px;
-}
 
 .contact-intro {
   font-size: 17px;
@@ -169,7 +175,7 @@ const contactLinks = [
 
 label {
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 400;
   color: var(--text-secondary);
 }
 
@@ -194,14 +200,14 @@ textarea::placeholder {
 
 input:focus,
 textarea:focus {
-  border-color: rgba(197, 190, 255, 0.4);
-  box-shadow: 0 0 0 3px rgba(197, 190, 255, 0.08);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-dim);
 }
 
 .submit-btn {
   align-self: flex-start;
-  background: var(--accent);
-  color: #18181c;
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
   border: none;
   padding: 12px 26px;
   border-radius: var(--radius-sm);
@@ -216,8 +222,8 @@ textarea:focus {
   height: 46px;
 }
 .submit-btn:hover:not(:disabled) {
-  background: #d9d4ff;
-  box-shadow: 0 0 28px rgba(197, 190, 255, 0.25);
+  background: var(--btn-primary-bg-hover);
+  box-shadow: var(--btn-primary-shadow);
   transform: translateY(-1px);
 }
 .submit-btn.loading { opacity: 0.8; cursor: not-allowed; }
@@ -225,8 +231,8 @@ textarea:focus {
 .spinner {
   width: 18px;
   height: 18px;
-  border: 2px solid rgba(24, 24, 28, 0.3);
-  border-top-color: #18181c;
+  border: 2px solid var(--border);
+  border-top-color: var(--btn-primary-text);
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
 }
@@ -256,7 +262,7 @@ textarea:focus {
 }
 .success-msg h3 {
   font-size: 19px;
-  font-weight: 700;
+  font-weight: 500;
   color: var(--text-primary);
 }
 .success-msg p {
@@ -293,7 +299,7 @@ textarea:focus {
   position: relative;
 }
 .contact-link-card:hover {
-  border-color: rgba(197, 190, 255, 0.2);
+  border-color: var(--border);
   background: var(--bg-card-hover);
   transform: translateY(-1px);
 }
@@ -312,7 +318,7 @@ textarea:focus {
 
 .link-name {
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--text-primary);
   line-height: 1.2;
 }

@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
 const education = [
   {
     degree: 'Bachelor of Science in Information Technology',
@@ -22,21 +26,31 @@ const education = [
 </script>
 
 <template>
-  <section id="education" class="section">
+  <section id="experience" class="section">
     <div class="container">
-      <h1 class="section-label">Education</h1>
-      <h2 class="section-title">Academic Background</h2>
+      <div class="section-top-bar">
+        <button class="view-more-btn" @click="router.push('/experience')">
+          <span>View More</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="section-header">
+        <h2 class="section-title">Academic &amp; Work Journey</h2>
+      </div>
 
       <div class="edu-list">
         <div
-          class="edu-card"
+          class="edu-item"
           v-for="(edu, idx) in education"
           :key="idx"
         >
           <div class="edu-top">
             <div class="edu-header">
               <h3 class="edu-degree">{{ edu.degree }}</h3>
-              <span class="edu-status" :class="edu.status.toLowerCase()">{{ edu.status }}</span>
+              <span class="edu-status">{{ edu.status }}</span>
             </div>
             <div class="edu-meta">
               <span class="edu-school">{{ edu.school }}</span>
@@ -53,39 +67,29 @@ const education = [
           </div>
         </div>
       </div>
+
     </div>
   </section>
 </template>
 
 <style scoped>
-.section-title {
-  font-size: 30px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: var(--text-primary);
-  margin-bottom: 36px;
-}
-
+/* edu-list: simple stack with dividers, no card background */
 .edu-list {
   display: flex;
   flex-direction: column;
-  gap: 20px;
 }
 
-.edu-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 32px;
-  transition: border-color var(--transition), background var(--transition);
+.edu-item {
+  padding: 32px 0;
+  border-bottom: 1px solid var(--border-subtle);
 }
-.edu-card:hover {
-  border-color: var(--border);
-  background: var(--bg-card-hover);
+
+.edu-item:first-child {
+  border-top: 1px solid var(--border-subtle);
 }
 
 .edu-top {
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
 .edu-header {
@@ -93,12 +97,12 @@ const education = [
   align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .edu-degree {
-  font-size: 17.5px;
-  font-weight: 600;
+  font-size: 17px;
+  font-weight: 400;
   color: var(--text-primary);
   letter-spacing: -0.01em;
   line-height: 1.4;
@@ -107,62 +111,56 @@ const education = [
 .edu-status {
   font-family: var(--font-mono);
   font-size: 11px;
-  font-weight: 500;
-  padding: 4px 11px;
+  font-weight: 400;
+  padding: 3px 10px;
   border-radius: var(--radius-full);
   flex-shrink: 0;
-  margin-top: 2px;
-}
-.edu-status.graduated {
-  background: rgba(168, 219, 197, 0.12);
-  color: var(--pastel-green);
-  border: 1px solid rgba(168, 219, 197, 0.25);
-}
-.edu-status.completed {
-  background: rgba(158, 197, 232, 0.10);
-  color: var(--pastel-blue);
-  border: 1px solid rgba(158, 197, 232, 0.2);
+  margin-top: 3px;
+  background: var(--accent-dim);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
 }
 
 .edu-meta {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   flex-wrap: wrap;
+  margin-bottom: 12px;
 }
 
 .edu-school {
-  font-size: 15px;
+  font-size: 14px;
   color: var(--text-secondary);
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .edu-period {
   font-family: var(--font-mono);
-  font-size: 12.5px;
+  font-size: 12px;
   color: var(--text-muted);
 }
 
 .edu-desc {
-  font-size: 16px;
+  font-size: 15px;
   color: var(--text-secondary);
-  line-height: 1.8;
-  margin-bottom: 22px;
+  line-height: 1.75;
+  margin-bottom: 18px;
 }
 
 .edu-highlights {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 7px;
 }
 
 .edu-badge {
-  font-size: 12.5px;
-  font-weight: 500;
-  color: var(--accent);
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-muted);
   background: var(--accent-dim);
-  border: 1px solid rgba(197, 190, 255, 0.2);
-  padding: 4px 12px;
+  border: 1px solid var(--border);
+  padding: 3px 10px;
   border-radius: var(--radius-full);
 }
 
@@ -170,3 +168,4 @@ const education = [
   .edu-header { flex-direction: column; }
 }
 </style>
+

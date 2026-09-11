@@ -365,28 +365,28 @@ export { LogoContent };
   inset-inline: 0;
   top: 0;
   height: clamp(24px, 8%, 120px);
-  background: linear-gradient(to bottom, var(--logoloop-fade-color, var(--bg-primary, #0f1117)) 0%, rgba(0,0,0,0) 100%);
+  background: linear-gradient(to bottom, var(--logoloop-fade-color, var(--bg-primary, #18181c)) 0%, rgba(0,0,0,0) 100%);
 }
 
 .logoloop-fade-bottom {
   inset-inline: 0;
   bottom: 0;
   height: clamp(24px, 8%, 120px);
-  background: linear-gradient(to top, var(--logoloop-fade-color, var(--bg-primary, #0f1117)) 0%, rgba(0,0,0,0) 100%);
+  background: linear-gradient(to top, var(--logoloop-fade-color, var(--bg-primary, #18181c)) 0%, rgba(0,0,0,0) 100%);
 }
 
 .logoloop-fade-left {
   inset-block: 0;
   left: 0;
   width: clamp(24px, 8%, 120px);
-  background: linear-gradient(to right, var(--logoloop-fade-color, var(--bg-primary, #0f1117)) 0%, rgba(0,0,0,0) 100%);
+  background: linear-gradient(to right, var(--logoloop-fade-color, var(--bg-primary, #18181c)) 0%, rgba(0,0,0,0) 100%);
 }
 
 .logoloop-fade-right {
   inset-block: 0;
   right: 0;
   width: clamp(24px, 8%, 120px);
-  background: linear-gradient(to left, var(--logoloop-fade-color, var(--bg-primary, #0f1117)) 0%, rgba(0,0,0,0) 100%);
+  background: linear-gradient(to left, var(--logoloop-fade-color, var(--bg-primary, #18181c)) 0%, rgba(0,0,0,0) 100%);
 }
 
 /* Track */
@@ -442,22 +442,22 @@ export { LogoContent };
   align-items: center;
   gap: 8px;
   padding: 8px 16px;
-  background: rgba(197, 190, 255, 0.05);
-  border: 1px solid rgba(197, 190, 255, 0.12);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
   border-radius: 999px;
   font-family: var(--font-sans, 'Roboto', sans-serif);
   font-size: 13.5px;
   font-weight: 500;
-  color: rgba(232, 230, 240, 0.6);
+  color: var(--text-secondary);
   white-space: nowrap;
   cursor: default;
   transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
 }
 
 :deep(.logoloop-badge:hover) {
-  border-color: rgba(197, 190, 255, 0.35);
-  color: rgba(232, 230, 240, 0.95);
-  background: rgba(197, 190, 255, 0.1);
+  border-color: var(--accent);
+  color: var(--text-primary);
+  background: var(--bg-card-hover);
 }
 
 :deep(.logoloop-badge svg),

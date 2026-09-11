@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
 const projects = [
   {
     featured: true,
@@ -66,8 +70,18 @@ const statusColor: Record<string, string> = {
 <template>
   <section id="projects" class="section">
     <div class="container">
-      <p class="section-label">Projects</p>
-      <h2 class="section-title">Things I've built</h2>
+      <div class="section-top-bar">
+        <button class="view-more-btn" @click="router.push('/projects')">
+          <span>View More</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="section-header">
+        <h2 class="section-title">Things I've built</h2>
+      </div>
 
       <!-- Featured projects -->
       <div class="featured-projects">
@@ -133,13 +147,6 @@ const statusColor: Record<string, string> = {
 </template>
 
 <style scoped>
-.section-title {
-  font-size: 30px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: var(--text-primary);
-  margin-bottom: 34px;
-}
 
 /* Featured */
 .featured-projects {
@@ -160,7 +167,7 @@ const statusColor: Record<string, string> = {
   background: var(--bg-card);
 }
 .project-card.featured:hover {
-  border-color: rgba(197, 190, 255, 0.2);
+  border-color: var(--border);
   background: var(--bg-card-hover);
 }
 
@@ -209,7 +216,7 @@ const statusColor: Record<string, string> = {
 
 .project-title {
   font-size: 20px;
-  font-weight: 700;
+  font-weight: 500;
   color: var(--text-primary);
   letter-spacing: -0.02em;
   margin-bottom: 12px;
@@ -253,27 +260,15 @@ const statusColor: Record<string, string> = {
   padding: 4px 11px;
   border-radius: var(--radius-full);
   flex-shrink: 0;
-}
-.project-status.green {
-  background: rgba(168, 219, 197, 0.12);
-  color: var(--pastel-green);
-  border: 1px solid rgba(168, 219, 197, 0.25);
-}
-.project-status.amber {
-  background: rgba(229, 200, 154, 0.12);
-  color: var(--pastel-amber);
-  border: 1px solid rgba(229, 200, 154, 0.25);
-}
-.project-status.blue {
-  background: rgba(158, 197, 232, 0.10);
-  color: var(--pastel-blue);
-  border: 1px solid rgba(158, 197, 232, 0.2);
+  background: var(--accent-dim);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
 }
 
 /* Sub-heading */
 .sub-heading {
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--text-muted);
   letter-spacing: 0.04em;
   margin-bottom: 18px;
@@ -295,12 +290,13 @@ const statusColor: Record<string, string> = {
 }
 .project-card.mini:hover {
   background: var(--bg-card-hover);
-  border-color: rgba(197, 190, 255, 0.2);
+  border-color: var(--border);
   transform: translateY(-2px);
 }
 
 .mini-title {
   font-size: 17px;
+  font-weight: 500;
   margin-bottom: 10px;
 }
 

@@ -3,8 +3,11 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { useTheme } from '../composables/useTheme'
 import AnimatedThemeToggler from './AnimatedThemeToggler.vue'
 
+import { useRouter } from 'vue-router'
+
 const scrolled = ref(false)
 const mobileMenuOpen = ref(false)
+const router = useRouter()
 
 const { isDark, isSystem, setSystemTheme, toggleTheme, initTheme } = useTheme()
 
@@ -19,14 +22,18 @@ onMounted(() => {
 onUnmounted(() => window.removeEventListener('scroll', handleScroll))
 
 const navLinks = [
-  { label: 'About',     href: '#about' },
-  { label: 'Education', href: '#education' },
-  { label: 'Projects',  href: '#projects' },
-  { label: 'Skills',    href: '#skills' },
-  { label: 'Contact',   href: '#contact' },
+  { label: 'About',          path: '/' },
+  { label: 'Experience',     path: '/experience' },
+  { label: 'Projects',       path: '/projects' },
+  { label: 'Technologies',   path: '/technologies' },
+  { label: 'Certifications', path: '/certifications' },
+  { label: "Let's Talk",     path: '/contact' },
 ]
 
-const closeMenu = () => { mobileMenuOpen.value = false }
+const handleMobileNav = (path: string) => {
+  router.push(path)
+  mobileMenuOpen.value = false
+}
 </script>
 
 <template>
@@ -92,15 +99,14 @@ const closeMenu = () => { mobileMenuOpen.value = false }
 
     <!-- Mobile dropdown -->
     <div class="mobile-menu" :class="{ open: mobileMenuOpen }">
-      <a
+      <button
         v-for="link in navLinks"
         :key="link.label"
-        :href="link.href"
         class="mobile-link"
-        @click="closeMenu"
+        @click="handleMobileNav(link.path)"
       >
         {{ link.label }}
-      </a>
+      </button>
     </div>
   </nav>
 </template>
@@ -178,7 +184,7 @@ const closeMenu = () => { mobileMenuOpen.value = false }
   transition: border-color var(--transition), background-color var(--transition), box-shadow var(--transition);
 }
 .theme-controls:hover {
-  border-color: rgba(197, 190, 255, 0.3);
+  border-color: var(--border);
 }
 
 .theme-btn {

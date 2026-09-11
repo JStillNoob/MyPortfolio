@@ -84,7 +84,7 @@ export default {
 
 .about-heading {
   font-size: 30px;
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: -0.02em;
   margin-bottom: 22px;
   color: var(--text-primary);
@@ -133,7 +133,7 @@ export default {
 
 .highlight-value {
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--text-primary);
   line-height: 1.2;
 }

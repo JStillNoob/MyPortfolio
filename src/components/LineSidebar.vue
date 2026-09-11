@@ -32,9 +32,9 @@ const FALLOFF_CURVES: Record<Falloff, (p: number) => number> = {
 
 const props = withDefaults(defineProps<LineSidebarProps>(), {
   items: () => ['About', 'Education', 'Projects', 'Skills', 'Contact'],
-  accentColor: '#c5beff',
-  textColor: '#c4c4c4',
-  markerColor: '#6c6c6c',
+  accentColor: '#f6f6f6',
+  textColor: 'rgba(246, 246, 246, 0.45)',
+  markerColor: 'rgba(246, 246, 246, 0.25)',
   showIndex: true,
   showMarker: true,
   proximityRadius: 100,
@@ -284,6 +284,7 @@ onUnmounted(() => {
   gap: 0;
   font-size: var(--font-size);
   line-height: 1.2;
+  white-space: nowrap;
   color: color-mix(
     in srgb,
     var(--accent-color) calc(var(--effect, 0) * 100%),
