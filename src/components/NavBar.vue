@@ -140,7 +140,7 @@ const handleMobileNav = (path: string) => {
 
 @media (max-width: 700px) {
   .navbar-inner {
-    padding: 0 20px;
+    padding: 0 16px;
     justify-content: flex-end;
   }
 }
@@ -175,16 +175,11 @@ const handleMobileNav = (path: string) => {
 .theme-controls {
   display: inline-flex;
   align-items: center;
-  gap: 2px;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-full);
-  padding: 3px 5px;
-  box-shadow: var(--shadow-sm);
-  transition: border-color var(--transition), background-color var(--transition), box-shadow var(--transition);
-}
-.theme-controls:hover {
-  border-color: var(--border);
+  gap: 4px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  box-shadow: none;
 }
 
 .theme-btn {
@@ -192,8 +187,8 @@ const handleMobileNav = (path: string) => {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 50px;
-  height: 25px;
+  width: 40px;
+  height: 40px;
   padding: 0;
   border-radius: var(--radius-full);
   color: var(--text-secondary);
@@ -221,7 +216,7 @@ const handleMobileNav = (path: string) => {
 .system-theme-btn.active::after {
   content: '';
   position: absolute;
-  bottom: 4px;
+  bottom: 6px;
   left: 50%;
   transform: translateX(-50%);
   width: 4px;
@@ -231,8 +226,8 @@ const handleMobileNav = (path: string) => {
 }
 
 .laptop-icon {
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
   transition: transform 0.2s ease;
 }
 
@@ -241,11 +236,14 @@ const handleMobileNav = (path: string) => {
 }
 
 .theme-divider {
-  width: 3px;
-  height: 25px;
-  background: var(--border);
-  margin: 0 3px;
-  display: block;
+  display: inline-block;
+  width: 1px;
+  height: 18px;
+  background-color: var(--text-secondary);
+  opacity: 0.55;
+  margin: 0 4px;
+  flex-shrink: 0;
+  border-radius: 1px;
 }
 
 /* Styled Hover Tooltip */

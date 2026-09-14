@@ -4,6 +4,8 @@ import { useRouter } from 'vue-router'
 import FooterSection from '../components/FooterSection.vue'
 import CircularGallery from '../components/CircularGallery.vue'
 import TechBadge from '../components/TechBadge.vue'
+import GithubActivity from '../components/GithubActivity.vue'
+import DepthCarousel, { type DepthCarouselCardItem } from '../components/DepthCarousel.vue'
 import { useTheme } from '../composables/useTheme'
 
 const router = useRouter()
@@ -32,7 +34,7 @@ const modalImageIndex = ref(0)
 
 const clientProject = {
   tag: 'SYSTEM INTEGRATION & ARCHITECTURE',
-  title: 'Project Manage Macua Construction',
+  title: 'Project Management System for Macua Construction',
   logo: '/logo1.png',
   shortBody: 'A centralized project monitoring system built for MACUA Construction to manage construction projects, workers, materials, equipment, and attendance in one place',
   fullBody: 'A centralized project monitoring system built for MACUA Construction to manage construction projects, workers, materials, equipment, and attendance in one place. It helps management monitor project progress, track resources, and generate reports without relying on manual logbooks and spreadsheets.',
@@ -160,30 +162,84 @@ onUnmounted(() => {
   document.body.style.overflow = ''
 })
 
-const highlightedProjects = [
+const highlightedProjects: DepthCarouselCardItem[] = [
   {
-    status: 'Live',
     title: 'Modern Portfolio Platform',
-    desc: 'An ultra-refined editorial portfolio experience crafted with Vue 3, TypeScript, and modern typography. Designed around unified magazine grid principles.',
-    tech: ['Vue 3', 'TypeScript', 'Vite', 'CSS Grid'],
-    github: 'https://github.com/JStillNoob',
-    live: '#',
+    image: '/slide 1.jfif',
+    alt: 'Modern Portfolio Platform preview',
+    description: 'An ultra-refined editorial portfolio experience crafted with Vue 3, TypeScript, and modern typography. Designed around unified magazine grid principles.',
+    badges: ['Live', 'Vue 3', 'TypeScript'],
+    metaLabel: 'TECH STACK',
+    metaValue: 'Vue 3 · Vite · CSS Grid',
+    actionLabel: 'View Project',
+    actionUrl: '#',
+    githubUrl: 'https://github.com/JStillNoob',
+    liked: false,
   },
   {
-    status: 'Live',
     title: 'DevPulse Analytics',
-    desc: 'Developer activity metrics and performance dashboard with real-time Git event aggregation and workflow visualization.',
-    tech: ['Vue 3', 'Node.js', 'Chart.js', 'PostgreSQL'],
-    github: 'https://github.com/JStillNoob',
-    live: '#',
+    image: '/slide2.jfif',
+    alt: 'DevPulse Analytics dashboard preview',
+    description: 'Developer activity metrics and performance dashboard with real-time Git event aggregation, repository velocity, and workflow visualization.',
+    badges: ['Live', 'Node.js', 'Chart.js'],
+    metaLabel: 'BACKEND & DB',
+    metaValue: 'Express · PostgreSQL',
+    actionLabel: 'Live Demo',
+    actionUrl: '#',
+    githubUrl: 'https://github.com/JStillNoob',
+    liked: true,
   },
   {
-    status: 'In Progress',
+    title: 'Macua Project System',
+    image: '/slide6.jfif',
+    alt: 'Macua Project Management System preview',
+    description: 'Centralized project monitoring system built for MACUA Construction to coordinate site attendance, materials, and heavy equipment.',
+    badges: ['Client Work', 'Enterprise', 'Laravel'],
+    metaLabel: 'ROLE',
+    metaValue: 'Full-Stack Developer',
+    actionLabel: 'Case Study',
+    actionUrl: '#',
+    githubUrl: 'https://github.com/JStillNoob',
+    liked: true,
+  },
+  {
     title: 'OmniFlow Task Engine',
-    desc: 'Lightweight distributed task scheduler and background job orchestration pipeline built for scalable asynchronous execution.',
-    tech: ['TypeScript', 'Express', 'Redis', 'Docker'],
-    github: 'https://github.com/JStillNoob',
-    live: '#',
+    image: '/slide3.jfif',
+    alt: 'OmniFlow Task Engine preview',
+    description: 'Lightweight distributed task scheduler and background job orchestration pipeline built for scalable asynchronous execution.',
+    badges: ['In Progress', 'Redis', 'Docker'],
+    metaLabel: 'SYSTEM',
+    metaValue: 'Distributed Worker Queue',
+    actionLabel: 'Repository',
+    actionUrl: 'https://github.com/JStillNoob',
+    githubUrl: 'https://github.com/JStillNoob',
+    liked: false,
+  },
+  {
+    title: 'BioSync Health Portal',
+    image: '/slide5.jfif',
+    alt: 'BioSync Health Portal preview',
+    description: 'Biometric records synchronizer and patient management system designed for fast clinical workflows and secure data handling.',
+    badges: ['Featured', 'Healthcare', 'Security'],
+    metaLabel: 'SPECIALIZATION',
+    metaValue: 'Vue 3 · Secure Auth',
+    actionLabel: 'Explore',
+    actionUrl: '#',
+    githubUrl: 'https://github.com/JStillNoob',
+    liked: false,
+  },
+  {
+    title: 'ByteShop Digital Store',
+    image: '/slide4.jfif',
+    alt: 'ByteShop Digital Products Store preview',
+    description: 'E-commerce platform for developer assets and digital products with custom Stripe checkout, automated licenses, and seller dashboards.',
+    badges: ['Live', 'Commerce', 'Stripe'],
+    metaLabel: 'COMMERCE',
+    metaValue: 'PHP · MySQL · Stripe',
+    actionLabel: 'Live Store',
+    actionUrl: '#',
+    githubUrl: 'https://github.com/JStillNoob',
+    liked: false,
   },
 ]
 
@@ -234,7 +290,6 @@ const pinnedRepos = [
 
       <!-- 01 — Introduction -->
       <section id="s-intro" class="story-section">
-        <div class="section-top-label">01 — Introduction</div>
         <h1 class="story-headline">Building my career,<br/><em>one project at a time.</em></h1>
         <p class="story-lead">
           My journey in Information Technology started with learning the fundamentals and gradually grew through hands-on projects, collaboration, and real-world problem solving.
@@ -263,11 +318,7 @@ const pinnedRepos = [
 
       <!-- 02 — First Real Client Work (Clean grid, NO heavy card container) -->
       <section id="s-client" class="story-section">
-        <div class="section-top-label">02 — First Real Client Work</div>
-        <h2 class="section-heading">Where it all became real.</h2>
-        <p class="story-lead">
-          Before building for myself, I built for someone else. My first client project taught me how to listen, adapt, and deliver under real expectations.
-        </p>
+        <h2 class="section-heading">First Real Client Work</h2>
 
         <div class="client-story-layout">
           <!-- Single Project Image Carousel -->
@@ -456,45 +507,45 @@ const pinnedRepos = [
         </Transition>
       </Teleport>
 
-      <!-- 03 — Highlighted Projects (Clean list rows with dividers) -->
-      <section id="s-projects" class="story-section">
-        <div class="section-top-label">03 — Highlighted Projects</div>
-        <h2 class="section-heading">What I have built.</h2>
-        <p class="story-lead">
-          A curated selection of projects I am proud of — ranging from full-stack architectures to creative frontend experiments.
-        </p>
+      <!-- 03 — Selected Project -->
+      <section id="s-projects" class="story-section selected-projects-section">
+        <div class="selected-projects-header">
+          <h2 class="section-heading">Selected Project</h2>
+          <button class="view-projects-link" @click="router.push('/projects')">
+            <span>Go to projects</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+            </svg>
+          </button>
+        </div>
 
-        <div class="projects-divider-list">
-          <div v-for="proj in highlightedProjects" :key="proj.title" class="project-row">
-            <div class="proj-header-row">
-              <div class="proj-title-group">
-                <h3 class="proj-name">{{ proj.title }}</h3>
-                <span class="status-badge">{{ proj.status }}</span>
-              </div>
-              <div class="proj-action-links">
-                <a :href="proj.github" target="_blank" rel="noopener noreferrer" class="link-icon-btn" title="GitHub Repository">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.11.82-.26.82-.58 0-.28-.01-1.03-.01-2.02-3.34.73-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .1-.77.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22 0 1.6-.01 2.9-.01 3.29 0 .32.21.7.82.58C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
-                </a>
-                <a :href="proj.live" target="_blank" rel="noopener noreferrer" class="link-icon-btn" title="Live Preview">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                </a>
-              </div>
-            </div>
-            <p class="proj-summary">{{ proj.desc }}</p>
-            <div class="tech-tags-row">
-              <span v-for="t in proj.tech" :key="t" class="tag-pill">{{ t }}</span>
-            </div>
-          </div>
+        <div class="depth-carousel-wrapper">
+          <DepthCarousel
+            :items="highlightedProjects"
+            :card-width="340"
+            :card-height="480"
+            :radius="18"
+            :depth="210"
+            :spread="85"
+            :tilt="20"
+            tilt-direction="right"
+            :perspective="1400"
+            :visible-cards="4"
+            :falloff="0.22"
+            :blur="6"
+            :duration="650"
+            autoplay
+            :autoplay-delay="3800"
+            loop
+            show-controls
+            show-indicators
+          />
         </div>
       </section>
 
       <!-- 04 — Recommendations (Editorial quotes, NO boxed cards) -->
       <section id="s-recs" class="story-section">
-        <div class="section-top-label">04 — Recommendations</div>
-        <h2 class="section-heading">What others say.</h2>
-        <p class="story-lead">
-          Real words from people I have worked with — peers, teammates, and early clients.
-        </p>
+        <h2 class="section-heading">Recommendations</h2>
 
         <div class="quotes-grid">
           <div v-for="(rec, idx) in recommendations" :key="idx" class="quote-item">
@@ -508,13 +559,9 @@ const pinnedRepos = [
         </div>
       </section>
 
-      <!-- 05 — GitHub Repository (Clean profile & repos, NO boxed card wrapper) -->
+      <!-- 05 — GitHub Activity -->
       <section id="s-github" class="story-section">
-        <div class="section-top-label">05 — GitHub Repository</div>
-        <h2 class="section-heading">My actual code.</h2>
-        <p class="story-lead">
-          Every commit tells a story. Here is a look at my public repositories and developer activity.
-        </p>
+        <h2 class="section-heading">GitHub Activity</h2>
 
         <div class="github-clean-block">
           <div class="gh-identity-row">
@@ -525,6 +572,9 @@ const pinnedRepos = [
             </div>
             <a href="https://github.com/JStillNoob" target="_blank" rel="noopener noreferrer" class="gh-btn">View Profile</a>
           </div>
+
+          <!-- GitHub Activity Calendar Widget -->
+          <GithubActivity username="JStillNoob" :title="''" />
 
           <!-- Pinned repos list on editorial grid -->
           <div class="repos-list">
@@ -589,7 +639,7 @@ const pinnedRepos = [
   letter-spacing: -0.02em;
   color: var(--text-primary);
   line-height: 1.2;
-  margin-bottom: 12px;
+  margin-bottom: 28px;
 }
 
 .story-lead {
@@ -798,82 +848,49 @@ const pinnedRepos = [
   font-family: var(--font-mono);
 }
 
-/* 03 — Highlighted Projects: divider rows */
-.projects-divider-list {
-  display: flex;
-  flex-direction: column;
+/* 03 — Highlighted Projects: DepthCarousel + Card12 Showcase */
+.selected-projects-section {
+  position: relative;
+  overflow: visible;
 }
 
-.project-row {
-  padding: 28px 0;
-  border-bottom: 1px solid var(--border-subtle);
-}
-
-.project-row:first-child {
-  border-top: 1px solid var(--border-subtle);
-}
-
-.proj-header-row {
+.selected-projects-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 10px;
   gap: 16px;
+  margin-bottom: 24px;
 }
 
-.proj-title-group {
-  display: flex;
+.selected-projects-header .section-heading {
+  margin-bottom: 0;
+}
+
+.view-projects-link {
+  display: inline-flex;
   align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.proj-name {
-  font-size: 18px;
-  font-weight: 400;
-  color: var(--text-primary);
-}
-
-.status-badge {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 400;
-  padding: 2px 8px;
-  border-radius: var(--radius-full);
-  background: var(--accent-dim);
-  color: var(--text-primary);
-  border: 1px solid var(--border);
-}
-
-.proj-action-links {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.link-icon-btn {
-  color: var(--text-muted);
-  transition: color var(--transition), transform var(--transition);
-  display: flex;
-  align-items: center;
-}
-
-.link-icon-btn:hover {
-  color: var(--text-primary);
-  transform: translateY(-1px);
-}
-
-.proj-summary {
-  font-size: 14.5px;
-  color: var(--text-secondary);
-  line-height: 1.7;
-  margin-bottom: 14px;
-}
-
-.tech-tags-row {
-  display: flex;
-  flex-wrap: wrap;
   gap: 6px;
+  background: transparent;
+  border: none;
+  padding: 4px 0;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 400;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color var(--transition), transform var(--transition);
+}
+
+.view-projects-link:hover {
+  color: var(--text-primary);
+  transform: translateX(4px);
+}
+
+.depth-carousel-wrapper {
+  width: 100%;
+  position: relative;
+  padding: 10px 0 20px;
 }
 
 /* 04 — Recommendations: Clean editorial quotes */

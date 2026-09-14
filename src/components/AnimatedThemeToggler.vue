@@ -220,8 +220,8 @@ const handleToggle = (event: MouseEvent) => {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   padding: 0;
   border-radius: var(--radius-full);
   color: var(--text-secondary);
@@ -243,8 +243,8 @@ const handleToggle = (event: MouseEvent) => {
 }
 
 .toggle-icon {
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
   transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 

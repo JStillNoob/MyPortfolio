@@ -178,6 +178,12 @@ button {
   padding: 0 44px;
 }
 
+@media (max-width: 700px) {
+  .container {
+    padding: 0 16px;
+  }
+}
+
 .section {
   min-height: 100vh;
   box-sizing: border-box;
