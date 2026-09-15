@@ -6,8 +6,11 @@ export interface DepthCarouselCardItem {
   image: string;
   alt?: string;
   title?: string;
+  subtitle?: string;
+  role?: string;
   description?: string;
   badges?: string[];
+  tech?: string[];
   metaLabel?: string;
   metaValue?: string;
   actionLabel?: string;
@@ -67,12 +70,12 @@ const props = withDefaults(defineProps<DepthCarouselProps>(), {
     { image: 'https://picsum.photos/seed/depth5/800/1000', alt: 'Slide 5' },
     { image: 'https://picsum.photos/seed/depth6/800/1000', alt: 'Slide 6' }
   ],
-  cardWidth: 350,
-  cardHeight: 490,
-  radius: 18,
+  cardWidth: 410,
+  cardHeight: 550,
+  radius: 20,
   tint: '#05060a',
-  depth: 210,
-  spread: 85,
+  depth: 220,
+  spread: 95,
   tilt: 20,
   tiltDirection: 'right',
   perspective: 1400,
@@ -284,6 +287,63 @@ const onActionClick = (index: number, item: DepthCarouselCardItem) => {
   emit('action', index, item);
 };
 
+const getRoleOrSubtitle = (item: DepthCarouselCardItem): string => {
+  return item.subtitle || item.role || item.metaValue || 'Frontend Developer & Deployment Specialist';
+};
+
+const getTechList = (item: DepthCarouselCardItem): string[] => {
+  if (Array.isArray(item.tech) && item.tech.length) return item.tech;
+  if (Array.isArray(item.badges) && item.badges.length) return item.badges;
+  return ['Vue', 'TypeScript', 'CSS'];
+};
+
+const renderTechIcon = (tech: string): string => {
+  const k = tech.toLowerCase().trim();
+  if (k.includes('next')) {
+    return `<svg viewBox="0 0 24 24" width="24" height="24" fill="none"><circle cx="12" cy="12" r="11" fill="#000" stroke="rgba(255,255,255,0.2)" stroke-width="1"/><path d="M16.5 17L9.2 7.5H7.5v9h1.6v-6.6l6.6 8.5c.3-.4.5-.9.8-1.4z" fill="#fff"/><path d="M14.8 7.5h1.6v5.2l-1.6-2V7.5z" fill="#fff"/></svg>`;
+  }
+  if (k.includes('css')) {
+    return `<svg viewBox="0 0 24 24" width="24" height="24" fill="none"><rect width="22" height="22" x="1" y="1" rx="4" fill="#1572B6"/><path d="M6 5.5h12l-1.1 11.5L12 18.2l-4.9-1.2L6 5.5z" fill="#33A9DC"/><path d="M12 6.8v10.1l3.5-.9.8-8.2H12z" fill="#fff" opacity=".25"/><path d="M8.5 8.8h7l-.3 2.5H9.8l.2 2h4.8l-.4 3.7-2.4.7-2.4-.7-.2-1.7h-1.3l.3 2.9 3.6 1 3.6-1 .5-5.5H8.3l.2-2.3z" fill="#fff"/></svg>`;
+  }
+  if (k.includes('react')) {
+    return `<svg viewBox="0 0 24 24" width="24" height="24" fill="none"><circle cx="12" cy="12" r="1.8" fill="#61DAFB"/><ellipse cx="12" cy="12" rx="9.5" ry="3.8" stroke="#61DAFB" stroke-width="1.3" fill="none"/><ellipse cx="12" cy="12" rx="9.5" ry="3.8" stroke="#61DAFB" stroke-width="1.3" fill="none" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9.5" ry="3.8" stroke="#61DAFB" stroke-width="1.3" fill="none" transform="rotate(120 12 12)"/></svg>`;
+  }
+  if (k.includes('vue')) {
+    return `<svg viewBox="0 0 24 24" width="24" height="24" fill="none"><path d="M2.5 3.5h3.8L12 13.2l5.7-9.7h3.8L12 20.5 2.5 3.5z" fill="#42B883"/><path d="M6.3 3.5h3.2L12 7.7l2.5-4.2h3.2L12 13.2 6.3 3.5z" fill="#35495E"/></svg>`;
+  }
+  if (k.includes('typescript') || k === 'ts') {
+    return `<svg viewBox="0 0 24 24" width="24" height="24" fill="none"><rect width="22" height="22" x="1" y="1" rx="4" fill="#3178C6"/><path d="M4.5 9h6.5v1.6H8.6v6.4H6.8v-6.4H4.5V9zm8 5.7c.3.5 1 .9 1.7.9.8 0 1.3-.3 1.3-1 0-.6-.5-.9-1.5-1.3-1.4-.5-2.2-1-2.2-2.1 0-1.4 1.1-2.2 2.5-2.2 1.1 0 1.8.4 2.2 1.1l-1.2 1c-.3-.4-.6-.6-1.1-.6-.5 0-.9.3-.9.7 0 .5.4.7 1.3 1.1 1.5.5 2.4 1.1 2.4 2.3 0 1.5-1.1 2.4-2.8 2.4-1.3 0-2.2-.4-2.7-1.3l1-1.1z" fill="#fff"/></svg>`;
+  }
+  if (k.includes('javascript') || k === 'js') {
+    return `<svg viewBox="0 0 24 24" width="24" height="24" fill="none"><rect width="22" height="22" x="1" y="1" rx="4" fill="#F7DF1E"/><path d="M12.5 16.5c.4.7 1.1 1 2 1 1 0 1.7-.5 1.7-1.5 0-1-.7-1.4-1.9-1.9-1.5-.7-2.5-1.4-2.5-2.9 0-1.5 1.2-2.6 2.9-2.6 1.3 0 2.2.5 2.8 1.5l-1.5.9c-.3-.6-.7-.8-1.3-.8-.7 0-1.1.3-1.1.8 0 .5.4.8 1.4 1.2 1.7.7 3 1.4 3 3.1 0 1.8-1.4 2.9-3.4 2.9-1.6 0-2.8-.7-3.4-1.8l1.3-1zm-5.3-5.8h1.9v5.4c0 1.1-.6 1.6-1.7 1.6-.4 0-.8-.1-1.2-.3v-1.5c.3.1.5.2.8.2.3 0 .5-.2.5-.6V10.7z" fill="#000"/></svg>`;
+  }
+  if (k.includes('laravel')) {
+    return `<svg viewBox="0 0 24 24" width="24" height="24" fill="none"><rect width="22" height="22" x="1" y="1" rx="4" fill="#18181c"/><path d="M21 6.5v4.5c0 .1-.1.2-.2.3L17 13.5v4.2c0 .2-.1.3-.2.3L9 21.5c-.1 0-.2 0-.3 0L3 17c-.1-.1-.1-.2-.1-.3V4.5c0-.1.1-.2.2-.3L7 2c.1 0 .2 0 .3 0l4 2.2c.1.1.2.2.2.3v8.5l3.3-1.9V6.5c0-.1.1-.2.2-.3l4-2.2c.1 0 .2 0 .3 0l1.7 1c.1.1.1.1.1.2z" fill="#FF2D20"/></svg>`;
+  }
+  if (k.includes('php')) {
+    return `<svg viewBox="0 0 24 24" width="24" height="24" fill="none"><ellipse cx="12" cy="12" rx="11" ry="6.5" fill="#777BB4"/><text x="12" y="14.8" font-size="7.5" font-weight="900" font-family="sans-serif" text-anchor="middle" fill="#fff">PHP</text></svg>`;
+  }
+  if (k.includes('mysql') || k.includes('sql') || k.includes('postgres')) {
+    return `<svg viewBox="0 0 24 24" width="24" height="24" fill="none"><rect width="22" height="22" x="1" y="1" rx="4" fill="#00618A"/><ellipse cx="12" cy="7" rx="7" ry="2.5" fill="#fff" opacity=".9"/><path d="M5 7v4c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5V7" stroke="#fff" stroke-width="1.2" fill="none"/><path d="M5 11v4c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5v-4" stroke="#fff" stroke-width="1.2" fill="none"/></svg>`;
+  }
+  if (k.includes('node')) {
+    return `<svg viewBox="0 0 24 24" width="24" height="24" fill="none"><path d="M12 2l9 5.2v10.4l-9 5.2-9-5.2V7.2L12 2z" fill="#339933"/><text x="12" y="14.8" font-size="6.5" font-weight="800" font-family="sans-serif" text-anchor="middle" fill="#fff">node</text></svg>`;
+  }
+  if (k.includes('docker')) {
+    return `<svg viewBox="0 0 24 24" width="24" height="24" fill="none"><rect width="22" height="22" x="1" y="1" rx="4" fill="#0db7ed"/><path d="M20 12c-.4-.4-1.2-.4-1.7 0-.2-.7-.6-1.3-1.3-1.7-.2 0-.3-.1-.5-.1-.2-.5-.7-.9-1.2-1.1-.2-.1-.4-.2-.6-.2-.2-.4-.5-.8-.9-1-.3-.2-.7-.3-1.1-.3V9.5H11V5.5H9v2.2H7V5.5H5v4.2H3.2c-.5 0-.9.2-1.3.4-.6.6-.9 1.7-.9 3 0 3.3 3 5.9 9.2 5.9 5.7 0 9-2.7 9.7-6.3.6-.3 1.2-.9 1.2-1.5-.5-.4-.9-.9-.9-1.2h-.5z" fill="#fff"/></svg>`;
+  }
+  if (k.includes('redis')) {
+    return `<svg viewBox="0 0 24 24" width="24" height="24" fill="none"><path d="M2 8.5L12 3l10 5.5-10 5.5L2 8.5z" fill="#DC382D"/><path d="M2 8.5v6.5L12 20.5v-6.5L2 8.5z" fill="#A8251E"/><path d="M12 14v6.5l10-5.5V8.5L12 14z" fill="#C62828"/></svg>`;
+  }
+  if (k.includes('vite')) {
+    return `<svg viewBox="0 0 24 24" width="24" height="24" fill="none"><path d="M20.5 3.5L12.5 21 3.5 3.5h17z" fill="#646CFF"/><path d="M17 2.5l-5.8 12.5-2.4-4.8 8.2-7.7z" fill="#FFD62E"/></svg>`;
+  }
+  if (k.includes('html')) {
+    return `<svg viewBox="0 0 24 24" width="24" height="24" fill="none"><rect width="22" height="22" x="1" y="1" rx="4" fill="#E34F26"/><path d="M5.5 5h13l-1.2 12.5-5.3 1.5-5.3-1.5L5.5 5z" fill="#EF652A"/><text x="12" y="14" font-size="6" font-weight="900" font-family="sans-serif" text-anchor="middle" fill="#fff">HTML</text></svg>`;
+  }
+  return `<svg viewBox="0 0 24 24" width="24" height="24" fill="none"><rect width="22" height="22" x="1" y="1" rx="4" fill="#23242b" stroke="rgba(255,255,255,0.15)" stroke-width="1"/><circle cx="12" cy="12" r="3" fill="rgba(255,255,255,0.7)"/></svg>`;
+};
+
 let ro: ResizeObserver | null = null;
 let removeWheelListener: (() => void) | null = null;
 let stopAutoplay: (() => void) | null = null;
@@ -443,116 +503,74 @@ watch(
       >
         <!-- Slot support for custom card interior -->
         <slot name="card" :item="item" :index="i" :active="active === i">
-          <!-- Card12 Integrated Design -->
-          <div class="card12-layout">
-            <!-- Media / Top Image Section -->
-            <div class="card12-media">
+          <div class="project-card-layout">
+            <!-- Media / Top Image (No heart icon) -->
+            <div class="project-card-media">
               <img
-                class="card12-img"
+                class="project-card-img"
                 :src="item.image"
                 :alt="item.alt || item.title || ''"
                 :draggable="false"
               />
-              <div class="card12-gradient-overlay" />
-
-              <!-- Card12 Floating Heart / Like Button -->
-              <button
-                type="button"
-                class="card12-like-btn"
-                :class="{ 'is-liked': item.liked }"
-                :aria-label="item.liked ? 'Unlike project' : 'Like project'"
-                title="Like project"
-                @click.stop="toggleLike(i)"
-                @pointerdown.stop
-              >
-                <svg
-                  class="card12-heart-icon"
-                  viewBox="0 0 24 24"
-                  :fill="item.liked ? '#ef4444' : 'none'"
-                  :stroke="item.liked ? '#ef4444' : 'currentColor'"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-                </svg>
-                <span class="sr-only">Like</span>
-              </button>
             </div>
 
-            <!-- Card12 Content Area -->
-            <div class="card12-content">
-              <!-- Header: Title and Badges -->
-              <div class="card12-header">
-                <h4 class="card12-title" :title="item.title">{{ item.title }}</h4>
-                <div v-if="item.badges && item.badges.length" class="card12-badges">
-                  <span
-                    v-for="(badge, bIdx) in item.badges"
-                    :key="bIdx"
-                    class="card12-badge"
-                  >
-                    {{ badge }}
-                  </span>
-                </div>
-              </div>
+            <!-- Content Area: Title -> Subtitle/Role -> Description -> Tech -> Divider -> Visit Site -->
+            <div class="project-card-content">
+              <!-- Title -->
+              <h4 class="project-card-title" :title="item.title">{{ item.title }}</h4>
 
-              <!-- Body: Description -->
-              <p class="card12-description" :title="item.description">
+              <!-- Role / Subtitle -->
+              <p class="project-card-role" :title="getRoleOrSubtitle(item)">
+                {{ getRoleOrSubtitle(item) }}
+              </p>
+
+              <!-- Description -->
+              <p class="project-card-desc" :title="item.description">
                 {{ item.description }}
               </p>
 
-              <!-- Footer: Meta Information + Action Button -->
-              <div class="card12-footer">
-                <div class="card12-meta">
-                  <span class="card12-meta-label">{{ item.metaLabel || 'CATEGORY' }}</span>
-                  <span class="card12-meta-val">{{ item.metaValue || 'Featured' }}</span>
-                </div>
+              <!-- Tech Stack Icons Row -->
+              <div class="project-card-tech">
+                <span
+                  v-for="(t, tIdx) in getTechList(item)"
+                  :key="tIdx"
+                  class="tech-icon-pill"
+                  :title="t"
+                  v-html="renderTechIcon(t)"
+                />
+              </div>
 
-                <div class="card12-actions">
-                  <!-- GitHub Icon Link if provided -->
-                  <a
-                    v-if="item.githubUrl"
-                    :href="item.githubUrl"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="card12-icon-link"
-                    title="View GitHub Repository"
-                    @click.stop
-                    @pointerdown.stop
-                  >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.11.82-.26.82-.58 0-.28-.01-1.03-.01-2.02-3.34.73-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .1-.77.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22 0 1.6-.01 2.9-.01 3.29 0 .32.21.7.82.58C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/>
-                    </svg>
-                  </a>
+              <!-- Divider Line -->
+              <div class="project-card-divider" />
 
-                  <!-- Action CTA Button -->
-                  <a
-                    v-if="item.actionUrl"
-                    :href="item.actionUrl"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="card12-cta-btn"
-                    @click.stop="onActionClick(i, item)"
-                    @pointerdown.stop
-                  >
-                    <span>{{ item.actionLabel || 'View Project' }}</span>
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M7 17L17 7M17 7H7M17 7V17"/>
-                    </svg>
-                  </a>
-                  <button
-                    v-else
-                    type="button"
-                    class="card12-cta-btn"
-                    @click.stop="onActionClick(i, item)"
-                    @pointerdown.stop
-                  >
-                    <span>{{ item.actionLabel || 'View Project' }}</span>
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M7 17L17 7M17 7H7M17 7V17"/>
-                    </svg>
-                  </button>
-                </div>
+              <!-- Footer Action: VISIT SITE ↗ -->
+              <div class="project-card-footer">
+                <a
+                  v-if="item.actionUrl"
+                  :href="item.actionUrl"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="project-card-visit-link"
+                  @click.stop="onActionClick(i, item)"
+                  @pointerdown.stop
+                >
+                  <span>{{ (item.actionLabel || 'VISIT SITE').toUpperCase() }}</span>
+                  <svg class="visit-arrow-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                  </svg>
+                </a>
+                <button
+                  v-else
+                  type="button"
+                  class="project-card-visit-link"
+                  @click.stop="onActionClick(i, item)"
+                  @pointerdown.stop
+                >
+                  <span>{{ (item.actionLabel || 'VISIT SITE').toUpperCase() }}</span>
+                  <svg class="visit-arrow-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                  </svg>
+                </button>
               </div>
             </div>
           </div>
@@ -637,8 +655,8 @@ watch(
   justify-content: center;
   align-items: center;
   width: 100%;
-  min-height: 520px;
-  height: 540px;
+  min-height: 590px;
+  height: 620px;
   perspective-origin: 50% 50%;
   touch-action: pan-y;
   cursor: grab;
@@ -670,21 +688,21 @@ watch(
   will-change: transform, opacity, filter;
   overflow: hidden;
   background: var(--bg-primary, #18181c);
-  border: 1px solid var(--border, rgba(255, 255, 255, 0.12));
+  border: 1.5px dashed rgba(255, 255, 255, 0.24);
+  border-radius: 20px;
   box-shadow:
-    0 30px 60px -15px rgba(0, 0, 0, 0.55),
-    0 10px 24px -10px rgba(0, 0, 0, 0.4),
-    0 0 0 1px rgba(255, 255, 255, 0.05);
+    0 30px 60px -15px rgba(0, 0, 0, 0.7),
+    0 10px 24px -10px rgba(0, 0, 0, 0.45);
   pointer-events: auto;
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  box-sizing: border-box;
 }
 
 .depth-card.is-active {
-  border-color: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.48);
   box-shadow:
-    0 35px 70px -12px rgba(0, 0, 0, 0.7),
-    0 12px 30px -8px rgba(0, 0, 0, 0.45),
-    0 0 0 1px rgba(255, 255, 255, 0.1);
+    0 35px 70px -12px rgba(0, 0, 0, 0.85),
+    0 12px 30px -8px rgba(0, 0, 0, 0.55);
 }
 
 .depth-card-overlay {
@@ -698,263 +716,166 @@ watch(
 }
 
 /* =============================================
-   CARD12 INTEGRATED DESIGN STYLING
+   NEW EDITORIAL CARD STYLING (MATCHING DESIGN REFERENCE)
    ============================================= */
-.card12-layout {
+.project-card-layout {
   display: flex;
   flex-direction: column;
   height: 100%;
   width: 100%;
-  background: var(--bg-card, rgba(24, 24, 28, 0.95));
+  padding: 16px 20px 14px 20px;
+  box-sizing: border-box;
+  background: var(--bg-primary, #18181c);
   position: relative;
   overflow: hidden;
 }
 
-/* Top Media Box */
-.card12-media {
+.project-card-media {
   position: relative;
   width: 100%;
   height: 220px;
   flex-shrink: 0;
+  border-radius: 12px;
   overflow: hidden;
-  background: #0d0e12;
+  background: #f1f3f6;
+  padding: 8px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.card12-img {
+.project-card-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
+  border-radius: 8px;
   display: block;
   pointer-events: none;
   user-select: none;
   -webkit-user-drag: none;
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.45s ease;
 }
 
-.depth-card:hover .card12-img {
-  transform: scale(1.04);
+.depth-card:hover .project-card-img {
+  transform: scale(1.03);
 }
 
-.card12-gradient-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(14, 15, 18, 0.6) 0%, rgba(0, 0, 0, 0.1) 40%, transparent 100%);
-  pointer-events: none;
-}
-
-/* Floating Like Button (from Card12) */
-.card12-like-btn {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  background: rgba(255, 255, 255, 0.85);
-  color: #0f172a;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s ease, border-color 0.2s ease;
-  z-index: 5;
-}
-
-:root.dark .card12-like-btn,
-html.dark .card12-like-btn {
-  border-color: rgba(255, 255, 255, 0.18);
-  background: rgba(20, 22, 28, 0.72);
-  color: #f1f5f9;
-}
-
-.card12-like-btn:hover {
-  transform: scale(1.1);
-  background: #ffffff;
-  color: #000000;
-}
-
-:root.dark .card12-like-btn:hover,
-html.dark .card12-like-btn:hover {
-  background: rgba(30, 34, 44, 0.95);
-  color: #ffffff;
-}
-
-.card12-like-btn:active {
-  transform: scale(0.92);
-}
-
-.card12-like-btn.is-liked {
-  color: #ef4444;
-}
-
-.card12-heart-icon {
-  width: 17px;
-  height: 17px;
-  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.card12-like-btn.is-liked .card12-heart-icon {
-  transform: scale(1.08);
-}
-
-/* Card Body Area */
-.card12-content {
+.project-card-content {
   display: flex;
   flex-direction: column;
   flex: 1;
-  padding: 18px 20px 16px;
-  gap: 12px;
-  justify-content: space-between;
-  background: var(--bg-primary, #18181c);
+  padding-top: 15px;
+  min-width: 0;
 }
 
-/* Header */
-.card12-header {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.card12-title {
-  font-size: 19px;
-  font-weight: 600;
-  color: var(--text-primary, #ffffff);
+.project-card-title {
+  font-size: 23px;
+  font-weight: 700;
+  color: #ffffff;
   letter-spacing: -0.015em;
   line-height: 1.25;
-  margin: 0;
+  margin: 0 0 5px 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.card12-badges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  align-items: center;
+.project-card-role {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #f1f5f9;
+  line-height: 1.35;
+  margin: 0 0 10px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.card12-badge {
-  font-family: var(--font-mono, monospace);
-  font-size: 11px;
-  font-weight: 500;
-  padding: 2.5px 8px;
-  border-radius: 6px;
-  background: var(--bg-card, rgba(255, 255, 255, 0.06));
-  color: var(--text-secondary, rgba(255, 255, 255, 0.75));
-  border: 1px solid var(--border, rgba(255, 255, 255, 0.12));
-  letter-spacing: 0.02em;
-}
-
-/* Description */
-.card12-description {
-  font-size: 13.5px;
+.project-card-desc {
+  font-size: 14px;
+  font-weight: 400;
   line-height: 1.55;
-  color: var(--text-secondary, rgba(255, 255, 255, 0.68));
-  margin: 0;
+  color: rgba(246, 246, 246, 0.76);
+  margin: 0 0 14px 0;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
-/* Footer */
-.card12-footer {
+.project-card-tech {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding-top: 14px;
-  border-top: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.08));
+  gap: 10px;
   margin-top: auto;
+  min-height: 26px;
 }
 
-.card12-meta {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-}
-
-.card12-meta-label {
-  font-size: 10px;
-  font-family: var(--font-mono, monospace);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--text-muted, rgba(255, 255, 255, 0.45));
-}
-
-.card12-meta-val {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--text-primary, #ffffff);
-  letter-spacing: -0.01em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.card12-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-}
-
-.card12-icon-link {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  background: var(--bg-card, rgba(255, 255, 255, 0.06));
-  border: 1px solid var(--border, rgba(255, 255, 255, 0.12));
-  color: var(--text-secondary, rgba(255, 255, 255, 0.7));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-  text-decoration: none;
-}
-
-.card12-icon-link:hover {
-  background: var(--bg-card-hover, rgba(255, 255, 255, 0.12));
-  color: var(--text-primary, #ffffff);
-  border-color: rgba(255, 255, 255, 0.25);
-}
-
-/* Main CTA Button */
-.card12-cta-btn {
+.tech-icon-pill {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 14px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  background: #0284c7; /* Sky 600 from Card 12 */
-  color: #ffffff;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  border-radius: 5px;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.tech-icon-pill:hover {
+  transform: translateY(-2px);
+}
+
+.project-card-divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.12);
+  margin: 15px 0 11px 0;
+}
+
+.project-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.project-card-visit-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: none;
   border: none;
-  cursor: pointer;
+  padding: 0;
+  font-family: var(--font-mono, monospace);
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(246, 246, 246, 0.65);
   text-decoration: none;
-  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 
-.card12-cta-btn:hover {
-  background: #0369a1; /* Sky 700 */
-  transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(2, 132, 199, 0.45);
+.project-card-visit-link:hover {
+  color: #ffffff;
+  transform: translateX(2px);
 }
 
-.card12-cta-btn:active {
-  transform: translateY(0);
+.visit-arrow-icon {
+  width: 13px;
+  height: 13px;
+  stroke: currentColor;
+  transition: transform 0.2s ease;
+}
+
+.project-card-visit-link:hover .visit-arrow-icon {
+  transform: translate(1px, -1px);
 }
 
 /* =============================================

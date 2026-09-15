@@ -47,21 +47,39 @@ const activeNav = computed(() => {
 })
 
 const scrollToSection = (id: string) => {
+  if (id === 'about') {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+    return
+  }
   const el = document.getElementById(id)
   if (el) {
-    el.scrollIntoView({ behavior: 'smooth' })
+    const isMobile = window.innerWidth <= 700
+    const offset = isMobile ? 76 : 28
+    const bodyRect = document.body.getBoundingClientRect().top
+    const elRect = el.getBoundingClientRect().top
+    const targetY = Math.max(0, elRect - bodyRect - offset)
+
+    window.scrollTo({
+      top: targetY,
+      behavior: 'smooth',
+    })
   }
 }
+
+const pendingNavIndex = ref<number | null>(null)
 
 const handleNavClick = (index: number) => {
   const targetId = sectionIds[index]
   if (!targetId) return
 
   if (route.path !== '/') {
+    pendingNavIndex.value = index
     router.push('/').then(() => {
       setTimeout(() => {
+        currentScrollIndex.value = index
         scrollToSection(targetId)
-      }, 150)
+        pendingNavIndex.value = null
+      }, 160)
     })
   } else {
     currentScrollIndex.value = index
@@ -72,14 +90,32 @@ const handleNavClick = (index: number) => {
 const updateActiveOnScroll = () => {
   if (route.path !== '/') return
 
-  const threshold = window.scrollY + (window.innerHeight * 0.35)
+  // 1. Check if scrolled near the bottom of the page -> activate Contact
+  const scrollPosition = window.scrollY + window.innerHeight
+  const totalHeight = document.documentElement.scrollHeight
+  if (totalHeight - scrollPosition < 120) {
+    currentScrollIndex.value = sectionIds.length - 1
+    return
+  }
+
+  // 2. Check if at the top of the page -> activate About
+  if (window.scrollY < 100) {
+    currentScrollIndex.value = 0
+    return
+  }
+
+  // 3. Focal point threshold for natural section transition
+  const focalPoint = window.scrollY + (window.innerHeight * 0.35)
   for (let i = sectionIds.length - 1; i >= 0; i--) {
     const id = sectionIds[i]
     if (!id) continue
     const el = document.getElementById(id)
-    if (el && el.offsetTop <= threshold) {
-      currentScrollIndex.value = i
-      break
+    if (el) {
+      const elTop = el.getBoundingClientRect().top + window.scrollY
+      if (elTop <= focalPoint) {
+        currentScrollIndex.value = i
+        break
+      }
     }
   }
 }
@@ -93,7 +129,7 @@ onUnmounted(() => {
 })
 
 watch(() => route.path, (newPath) => {
-  if (newPath === '/') {
+  if (newPath === '/' && pendingNavIndex.value === null) {
     window.scrollTo({ top: 0, behavior: 'smooth' })
     currentScrollIndex.value = 0
   }
@@ -132,9 +168,13 @@ watch(() => route.path, (newPath) => {
       <FooterSection class="sidebar-footer" />
     </aside>
 
-    <!-- Routed view content -->
+    <!-- Routed view content with polished transition -->
     <main class="main-content typeset">
-      <router-view />
+      <router-view v-slot="{ Component, route }">
+        <Transition name="page-fade" mode="out-in">
+          <component :is="Component" :key="route.path" />
+        </Transition>
+      </router-view>
       <FooterSection class="mobile-footer" />
     </main>
   </div>

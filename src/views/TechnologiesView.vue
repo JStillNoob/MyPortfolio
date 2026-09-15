@@ -61,19 +61,19 @@ const technologyCategories = [
         <span>Back to Home</span>
       </button>
 
-      <div class="page-header">
+      <div class="page-header" v-reveal>
         <h1 class="page-title">Technologies</h1>
         <p class="page-subtitle">Languages, libraries, database engines, and tooling I use to craft digital systems.</p>
       </div>
 
       <div class="tech-sections">
-        <div v-for="cat in technologyCategories" :key="cat.label" class="tech-category">
+        <div v-for="cat in technologyCategories" :key="cat.label" class="tech-category" v-reveal>
           <div class="category-header">
             <h2 class="category-name">{{ cat.label }}</h2>
             <p class="category-desc">{{ cat.description }}</p>
           </div>
 
-          <div class="skills-stack">
+          <div class="skills-stack reveal-stagger" v-reveal>
             <div v-for="skill in cat.skills" :key="skill.name" class="skill-row">
               <div class="skill-meta">
                 <span class="skill-title">{{ skill.name }}</span>

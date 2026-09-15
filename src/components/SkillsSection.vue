@@ -58,11 +58,11 @@ const levelLabel = (lvl: number) => {
         </button>
       </div>
 
-      <div class="section-header">
+      <div class="section-header" v-reveal>
         <h2 class="section-title">What I work with</h2>
       </div>
 
-      <div class="skills-grid">
+      <div class="skills-grid reveal-stagger" v-reveal>
         <div
           class="skill-group"
           v-for="cat in categories"

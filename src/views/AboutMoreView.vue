@@ -4,7 +4,6 @@ import { useRouter } from 'vue-router'
 import CircularGallery from '../components/CircularGallery.vue'
 import TechBadge from '../components/TechBadge.vue'
 import GithubActivity from '../components/GithubActivity.vue'
-import DepthCarousel, { type DepthCarouselCardItem } from '../components/DepthCarousel.vue'
 import { useTheme } from '../composables/useTheme'
 
 const router = useRouter()
@@ -161,87 +160,6 @@ onUnmounted(() => {
   document.body.style.overflow = ''
 })
 
-const highlightedProjects: DepthCarouselCardItem[] = [
-  {
-    title: 'Modern Portfolio Platform',
-    image: '/slide 1.jfif',
-    alt: 'Modern Portfolio Platform preview',
-    description: 'An ultra-refined editorial portfolio experience crafted with Vue 3, TypeScript, and modern typography. Designed around unified magazine grid principles.',
-    badges: ['Live', 'Vue 3', 'TypeScript'],
-    metaLabel: 'TECH STACK',
-    metaValue: 'Vue 3 · Vite · CSS Grid',
-    actionLabel: 'View Project',
-    actionUrl: '#',
-    githubUrl: 'https://github.com/JStillNoob',
-    liked: false,
-  },
-  {
-    title: 'DevPulse Analytics',
-    image: '/slide2.jfif',
-    alt: 'DevPulse Analytics dashboard preview',
-    description: 'Developer activity metrics and performance dashboard with real-time Git event aggregation, repository velocity, and workflow visualization.',
-    badges: ['Live', 'Node.js', 'Chart.js'],
-    metaLabel: 'BACKEND & DB',
-    metaValue: 'Express · PostgreSQL',
-    actionLabel: 'Live Demo',
-    actionUrl: '#',
-    githubUrl: 'https://github.com/JStillNoob',
-    liked: true,
-  },
-  {
-    title: 'Macua Project System',
-    image: '/slide6.jfif',
-    alt: 'Macua Project Management System preview',
-    description: 'Centralized project monitoring system built for MACUA Construction to coordinate site attendance, materials, and heavy equipment.',
-    badges: ['Client Work', 'Enterprise', 'Laravel'],
-    metaLabel: 'ROLE',
-    metaValue: 'Full-Stack Developer',
-    actionLabel: 'Case Study',
-    actionUrl: '#',
-    githubUrl: 'https://github.com/JStillNoob',
-    liked: true,
-  },
-  {
-    title: 'OmniFlow Task Engine',
-    image: '/slide3.jfif',
-    alt: 'OmniFlow Task Engine preview',
-    description: 'Lightweight distributed task scheduler and background job orchestration pipeline built for scalable asynchronous execution.',
-    badges: ['In Progress', 'Redis', 'Docker'],
-    metaLabel: 'SYSTEM',
-    metaValue: 'Distributed Worker Queue',
-    actionLabel: 'Repository',
-    actionUrl: 'https://github.com/JStillNoob',
-    githubUrl: 'https://github.com/JStillNoob',
-    liked: false,
-  },
-  {
-    title: 'BioSync Health Portal',
-    image: '/slide5.jfif',
-    alt: 'BioSync Health Portal preview',
-    description: 'Biometric records synchronizer and patient management system designed for fast clinical workflows and secure data handling.',
-    badges: ['Featured', 'Healthcare', 'Security'],
-    metaLabel: 'SPECIALIZATION',
-    metaValue: 'Vue 3 · Secure Auth',
-    actionLabel: 'Explore',
-    actionUrl: '#',
-    githubUrl: 'https://github.com/JStillNoob',
-    liked: false,
-  },
-  {
-    title: 'ByteShop Digital Store',
-    image: '/slide4.jfif',
-    alt: 'ByteShop Digital Products Store preview',
-    description: 'E-commerce platform for developer assets and digital products with custom Stripe checkout, automated licenses, and seller dashboards.',
-    badges: ['Live', 'Commerce', 'Stripe'],
-    metaLabel: 'COMMERCE',
-    metaValue: 'PHP · MySQL · Stripe',
-    actionLabel: 'Live Store',
-    actionUrl: '#',
-    githubUrl: 'https://github.com/JStillNoob',
-    liked: false,
-  },
-]
-
 const recommendations = [
   {
     text: 'Jessie has a remarkable eye for detail and delivers clean, reliable code. His ability to translate complex requirements into intuitive interfaces made our collaboration effortless.',
@@ -298,7 +216,7 @@ const recommendations = [
       </section>
 
       <!-- 02 — First Real Client Work (Clean grid, NO heavy card container) -->
-      <section id="s-client" class="story-section">
+      <section id="s-client" class="story-section" v-reveal>
         <h2 class="section-heading">First Real Client Work</h2>
 
         <div class="client-story-layout">
@@ -488,47 +406,11 @@ const recommendations = [
         </Transition>
       </Teleport>
 
-      <!-- 03 — Selected Project -->
-      <section id="s-projects" class="story-section selected-projects-section">
-        <div class="selected-projects-header">
-          <h2 class="section-heading">Selected Project</h2>
-          <button class="view-projects-link" @click="router.push('/projects')">
-            <span>Go to projects</span>
-            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
-            </svg>
-          </button>
-        </div>
-
-        <div class="depth-carousel-wrapper">
-          <DepthCarousel
-            :items="highlightedProjects"
-            :card-width="340"
-            :card-height="480"
-            :radius="18"
-            :depth="210"
-            :spread="85"
-            :tilt="20"
-            tilt-direction="right"
-            :perspective="1400"
-            :visible-cards="4"
-            :falloff="0.22"
-            :blur="6"
-            :duration="650"
-            autoplay
-            :autoplay-delay="3800"
-            loop
-            show-controls
-            show-indicators
-          />
-        </div>
-      </section>
-
-      <!-- 04 — Recommendations (Editorial quotes, NO boxed cards) -->
-      <section id="s-recs" class="story-section">
+      <!-- 03 — Recommendations (Editorial quotes, NO boxed cards) -->
+      <section id="s-recs" class="story-section" v-reveal>
         <h2 class="section-heading">Recommendations</h2>
 
-        <div class="quotes-grid">
+        <div class="quotes-grid reveal-stagger" v-reveal>
           <div v-for="(rec, idx) in recommendations" :key="idx" class="quote-item">
             <p class="quote-body">“{{ rec.text }}”</p>
             <div class="quote-author">
@@ -541,7 +423,7 @@ const recommendations = [
       </section>
 
       <!-- 05 — GitHub Activity -->
-      <section id="s-github" class="story-section">
+      <section id="s-github" class="story-section" v-reveal>
         <h2 class="section-heading">GitHub Activity</h2>
 
         <div class="github-clean-block">
@@ -807,52 +689,7 @@ const recommendations = [
   font-family: var(--font-mono);
 }
 
-/* 03 — Highlighted Projects: DepthCarousel + Card12 Showcase */
-.selected-projects-section {
-  position: relative;
-  overflow: visible;
-}
-
-.selected-projects-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 24px;
-}
-
-.selected-projects-header .section-heading {
-  margin-bottom: 0;
-}
-
-.view-projects-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: transparent;
-  border: none;
-  padding: 4px 0;
-  color: var(--text-secondary);
-  font-family: var(--font-mono);
-  font-size: 13px;
-  font-weight: 400;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: color var(--transition), transform var(--transition);
-}
-
-.view-projects-link:hover {
-  color: var(--text-primary);
-  transform: translateX(4px);
-}
-
-.depth-carousel-wrapper {
-  width: 100%;
-  position: relative;
-  padding: 10px 0 20px;
-}
-
-/* 04 — Recommendations: Clean editorial quotes */
+/* 03 — Recommendations: Clean editorial quotes */
 .quotes-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;

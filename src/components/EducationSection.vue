@@ -37,11 +37,11 @@ const education = [
         </button>
       </div>
 
-      <div class="section-header">
+      <div class="section-header" v-reveal>
         <h2 class="section-title">Academic &amp; Work Journey</h2>
       </div>
 
-      <div class="edu-list">
+      <div class="edu-list reveal-stagger" v-reveal>
         <div
           class="edu-item"
           v-for="(edu, idx) in education"

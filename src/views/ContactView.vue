@@ -53,14 +53,14 @@ const contactChannels = [
         <span>Back to Home</span>
       </button>
 
-      <div class="page-header">
+      <div class="page-header" v-reveal>
         <h1 class="page-title">Let's Talk</h1>
         <p class="page-subtitle">Available for full-time software roles, contract engineering, and technical collaborations.</p>
       </div>
 
       <div class="contact-grid">
         <!-- Message form -->
-        <div class="form-container">
+        <div class="form-container" v-reveal>
           <form v-if="!submitted" class="contact-form" @submit.prevent="handleSubmit">
             <div class="form-row">
               <div class="form-group">
@@ -99,7 +99,7 @@ const contactChannels = [
         </div>
 
         <!-- Sidebar channels -->
-        <div class="direct-channels">
+        <div class="direct-channels" v-reveal>
           <div class="channels-section">
             <h2 class="sidebar-heading">Direct Channels</h2>
             <div class="channel-list">

@@ -57,12 +57,12 @@ const certifications = [
         <span>Back to Home</span>
       </button>
 
-      <div class="page-header">
+      <div class="page-header" v-reveal>
         <h1 class="page-title">Certifications</h1>
         <p class="page-subtitle">Accredited certifications, industry credentials, and verified coursework.</p>
       </div>
 
-      <div class="cert-list">
+      <div class="cert-list reveal-stagger" v-reveal>
         <div v-for="cert in certifications" :key="cert.title" class="cert-row">
           <div class="cert-top">
             <div class="cert-title-block">

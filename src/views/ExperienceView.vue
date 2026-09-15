@@ -66,15 +66,15 @@ const education = [
         <span>Back to Home</span>
       </button>
 
-      <div class="page-header">
+      <div class="page-header" v-reveal>
         <h1 class="page-title">Experience</h1>
         <p class="page-subtitle">Career history, professional roles, and academic foundations.</p>
       </div>
 
       <!-- Professional Experience -->
-      <div class="content-group">
+      <div class="content-group" v-reveal>
         <h2 class="group-heading">Work &amp; Professional Roles</h2>
-        <div class="item-list">
+        <div class="item-list reveal-stagger" v-reveal>
           <div v-for="(exp, idx) in experiences" :key="idx" class="list-row">
             <div class="row-top">
               <div class="row-header">
@@ -98,9 +98,9 @@ const education = [
       </div>
 
       <!-- Education Journey -->
-      <div class="content-group">
+      <div class="content-group" v-reveal>
         <h2 class="group-heading">Academic Journey</h2>
-        <div class="item-list">
+        <div class="item-list reveal-stagger" v-reveal>
           <div v-for="(edu, idx) in education" :key="idx" class="list-row">
             <div class="row-top">
               <div class="row-header">

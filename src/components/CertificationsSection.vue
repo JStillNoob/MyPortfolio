@@ -40,11 +40,11 @@ const certifications = [
         </button>
       </div>
 
-      <div class="section-header">
+      <div class="section-header" v-reveal>
         <h2 class="section-title">Certifications &amp; Credentials</h2>
       </div>
 
-      <div class="cert-grid">
+      <div class="cert-grid reveal-stagger" v-reveal>
         <div
           v-for="cert in certifications"
           :key="cert.title"

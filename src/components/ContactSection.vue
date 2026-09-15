@@ -55,17 +55,17 @@ const contactLinks = [
         </button>
       </div>
 
-      <div class="section-header">
+      <div class="section-header" v-reveal>
         <h2 class="section-title">Let's work together</h2>
       </div>
-      <p class="contact-intro">
+      <p class="contact-intro" v-reveal>
         I'm open to full-time roles, freelance projects, or just a good conversation
         about tech. Drop me a message and I'll get back to you within 24 hours.
       </p>
 
       <div class="contact-layout">
         <!-- Form -->
-        <div class="contact-form-wrap">
+        <div class="contact-form-wrap" v-reveal>
           <form class="contact-form" @submit.prevent="handleSubmit" v-if="!submitted">
             <div class="form-group">
               <label for="name">Name</label>
@@ -120,7 +120,7 @@ const contactLinks = [
         </div>
 
         <!-- Side links -->
-        <div class="contact-links">
+        <div class="contact-links reveal-stagger" v-reveal>
           <p class="links-label">Or reach me directly</p>
           <a
             v-for="link in contactLinks"
