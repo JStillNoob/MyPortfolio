@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
-import FooterSection from '../components/FooterSection.vue'
 import CircularGallery from '../components/CircularGallery.vue'
 import TechBadge from '../components/TechBadge.vue'
 import GithubActivity from '../components/GithubActivity.vue'
@@ -255,24 +254,6 @@ const recommendations = [
     name: 'Client Partner',
     role: 'Business Owner',
     initials: 'BP',
-  },
-]
-
-const pinnedRepos = [
-  {
-    name: 'MyPortfolio',
-    desc: 'Personal portfolio built with Vue 3, Vite, and bespoke typography styling.',
-    lang: 'Vue',
-  },
-  {
-    name: 'task-flow-api',
-    desc: 'REST API backend for task management with JWT authentication and PostgreSQL.',
-    lang: 'TypeScript',
-  },
-  {
-    name: 'inventory-core',
-    desc: 'Modular inventory tracking system with role-based access control.',
-    lang: 'PHP',
   },
 ]
 </script>
@@ -564,33 +545,11 @@ const pinnedRepos = [
         <h2 class="section-heading">GitHub Activity</h2>
 
         <div class="github-clean-block">
-          <div class="gh-identity-row">
-            <div class="gh-avatar">J</div>
-            <div class="gh-info">
-              <span class="gh-username">@JStillNoob</span>
-              <span class="gh-bio">IT developer · Vue 3 · TypeScript · PHP · Modern Web Systems</span>
-            </div>
-            <a href="https://github.com/JStillNoob" target="_blank" rel="noopener noreferrer" class="gh-btn">View Profile</a>
-          </div>
-
           <!-- GitHub Activity Calendar Widget -->
           <GithubActivity username="JStillNoob" :title="''" />
-
-          <!-- Pinned repos list on editorial grid -->
-          <div class="repos-list">
-            <div v-for="repo in pinnedRepos" :key="repo.name" class="repo-row">
-              <div class="repo-left">
-                <span class="repo-name">{{ repo.name }}</span>
-                <p class="repo-desc">{{ repo.desc }}</p>
-              </div>
-              <span class="tag-pill">{{ repo.lang }}</span>
-            </div>
-          </div>
         </div>
       </section>
     </div>
-
-    <FooterSection />
   </div>
 </template>
 
@@ -942,94 +901,6 @@ const pinnedRepos = [
   display: flex;
   flex-direction: column;
   gap: 28px;
-}
-
-.gh-identity-row {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-  padding-bottom: 24px;
-  border-bottom: 1px solid var(--border-subtle);
-}
-
-.gh-avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: var(--accent-dim);
-  border: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 500;
-  font-size: 16px;
-  color: var(--text-primary);
-}
-
-.gh-info {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.gh-username {
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--text-primary);
-}
-
-.gh-bio {
-  font-size: 13px;
-  color: var(--text-muted);
-}
-
-.gh-btn {
-  margin-left: auto;
-  padding: 8px 18px;
-  background: var(--btn-primary-bg);
-  color: var(--btn-primary-text);
-  border-radius: var(--radius-sm);
-  font-size: 13px;
-  font-weight: 500;
-  text-decoration: none;
-  transition: opacity var(--transition);
-}
-
-.gh-btn:hover {
-  opacity: 0.88;
-}
-
-.repos-list {
-  display: flex;
-  flex-direction: column;
-}
-
-.repo-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 0;
-  border-bottom: 1px solid var(--border-subtle);
-  gap: 16px;
-}
-
-.repo-left {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.repo-name {
-  font-size: 14.5px;
-  font-weight: 500;
-  color: var(--text-primary);
-}
-
-.repo-desc {
-  font-size: 13px;
-  color: var(--text-secondary);
-  line-height: 1.5;
 }
 
 /* =============================================

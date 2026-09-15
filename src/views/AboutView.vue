@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import HeroSection from '../components/HeroSection.vue'
 import AboutSection from '../components/AboutSection.vue'
-import FooterSection from '../components/FooterSection.vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -77,8 +76,6 @@ const tabLinks = [
         </div>
       </div>
     </section>
-
-    <FooterSection />
   </div>
 </template>
 

@@ -5,7 +5,6 @@ import ProjectsSection from '../components/ProjectsSection.vue'
 import SkillsSection from '../components/SkillsSection.vue'
 import CertificationsSection from '../components/CertificationsSection.vue'
 import ContactSection from '../components/ContactSection.vue'
-import FooterSection from '../components/FooterSection.vue'
 </script>
 
 <template>
@@ -16,7 +15,6 @@ import FooterSection from '../components/FooterSection.vue'
     <SkillsSection />
     <CertificationsSection />
     <ContactSection />
-    <FooterSection />
   </div>
 </template>
 

@@ -2,44 +2,56 @@
 </script>
 
 <template>
-  <footer class="footer">
-    <div class="container footer-inner">
-      <p class="footer-copy">
-        Designed &amp; built by <span class="footer-name">Jessie Alegado Jr.</span>
-      </p>
-      <p class="footer-mono">
-        © {{ new Date().getFullYear() }} · All rights reserved
-      </p>
+  <footer class="footer-wrapper">
+    <p class="footer-quote">Curiosity into craft.</p>
+    <div class="footer-meta">
+      <span class="meta-name">Jessie Alegado Jr.</span>
+      <span class="meta-sep">/</span>
+      <span class="meta-location">Davao City, Philippines</span>
     </div>
   </footer>
 </template>
 
 <style scoped>
-.footer {
-  padding: 40px 0;
+.footer-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  user-select: none;
 }
 
-.footer-inner {
+.footer-quote {
+  font-family: var(--font-sans);
+  font-style: italic;
+  font-size: 13.5px;
+  color: var(--text-muted);
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+
+.footer-meta {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   flex-wrap: wrap;
   gap: 8px;
+  font-size: 12.5px;
+  line-height: 1.4;
 }
 
-.footer-copy {
-  font-size: 14.5px;
+.meta-name {
+  color: var(--text-primary);
+  font-weight: 100;
+  letter-spacing: -0.010em;
+}
+
+.meta-sep {
   color: var(--text-muted);
-}
-
-.footer-name {
-  color: var(--text-secondary);
+  opacity: 1;
   font-weight: 500;
 }
 
-.footer-mono {
-  font-family: var(--font-mono);
-  font-size: 12.5px;
+.meta-status,
+.meta-location {
   color: var(--text-muted);
 }
 </style>

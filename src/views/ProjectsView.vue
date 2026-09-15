@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import FooterSection from '../components/FooterSection.vue'
 
 const router = useRouter()
 
@@ -126,8 +125,6 @@ const archiveProjects = [
         </div>
       </div>
     </div>
-
-    <FooterSection />
   </div>
 </template>
 

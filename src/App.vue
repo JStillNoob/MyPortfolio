@@ -3,6 +3,7 @@ import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import NavBar from './components/NavBar.vue'
 import LineSidebar from './components/LineSidebar.vue'
+import FooterSection from './components/FooterSection.vue'
 import { useTheme } from './composables/useTheme'
 
 const { isDark } = useTheme()
@@ -105,31 +106,36 @@ watch(() => route.path, (newPath) => {
 
     <!-- Fixed left sidebar -->
     <aside class="sidebar-shell">
-      <LineSidebar
-        :items="navItems"
-        :accent-color="isDark ? '#f6f6f6' : '#18181c'"
-        :text-color="isDark ? 'rgba(246, 246, 246, 0.45)' : 'rgba(24, 24, 28, 0.45)'"
-        :marker-color="isDark ? 'rgba(246, 246, 246, 0.25)' : 'rgba(24, 24, 28, 0.25)'"
-        :show-index="true"
-        :show-marker="true"
-        :proximity-radius="200"
-        :max-shift="65"
-        falloff="smooth"
-        :marker-length="110"
-        :marker-gap="0"
-        :tick-scale="0.5"
-        :scale-tick="true"
-        :item-gap="48"
-        :font-size="1.85"
-        :smoothing="70"
-        :default-active="activeNav"
-        @item-click="handleNavClick"
-      />
+      <div class="sidebar-nav-wrap">
+        <LineSidebar
+          :items="navItems"
+          :accent-color="isDark ? '#f6f6f6' : '#18181c'"
+          :text-color="isDark ? 'rgba(246, 246, 246, 0.45)' : 'rgba(24, 24, 28, 0.45)'"
+          :marker-color="isDark ? 'rgba(246, 246, 246, 0.25)' : 'rgba(24, 24, 28, 0.25)'"
+          :show-index="true"
+          :show-marker="true"
+          :proximity-radius="200"
+          :max-shift="65"
+          falloff="smooth"
+          :marker-length="110"
+          :marker-gap="0"
+          :tick-scale="0.5"
+          :scale-tick="true"
+          :item-gap="48"
+          :font-size="1.85"
+          :smoothing="70"
+          :default-active="activeNav"
+          @item-click="handleNavClick"
+        />
+      </div>
+
+      <FooterSection class="sidebar-footer" />
     </aside>
 
     <!-- Routed view content -->
     <main class="main-content typeset">
       <router-view />
+      <FooterSection class="mobile-footer" />
     </main>
   </div>
 </template>
@@ -150,13 +156,26 @@ watch(() => route.path, (newPath) => {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: flex-start;
-  padding: 0;
+  padding: 40px 0 36px 0;
+  box-sizing: border-box;
   z-index: 100;
   background: var(--sidebar-gradient);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
+}
+
+.sidebar-nav-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.sidebar-footer {
+  padding-left: 30px;
+  padding-right: 24px;
 }
 
 .sidebar-logo {
@@ -188,6 +207,10 @@ watch(() => route.path, (newPath) => {
   box-sizing: border-box;
 }
 
+.mobile-footer {
+  display: none;
+}
+
 /* ── Logo strip ────────────────────────────────────────────── */
 .logoloop-section {
   padding: 40px 0;
@@ -208,6 +231,11 @@ watch(() => route.path, (newPath) => {
   .main-content {
     margin-left: 0;
     width: 100vw;
+  }
+  .mobile-footer {
+    display: flex;
+    padding: 44px 24px 36px;
+    border-top: 1px solid var(--border-subtle);
   }
 }
 </style>
