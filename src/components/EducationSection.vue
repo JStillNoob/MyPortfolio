@@ -5,22 +5,10 @@ const router = useRouter()
 
 const education = [
   {
-    degree: 'Bachelor of Science in Information Technology',
-    school: 'University of the Philippines',
-    period: '2020 – 2024',
-    status: 'Graduated',
-    description:
-      'Focused on software engineering, web development, and database management. Completed capstone project on full-stack web application development.',
-    highlights: ['Dean\'s List', 'Capstone Award', 'Tech Club President'],
-  },
-  {
-    degree: 'Senior High School — STEM Strand',
-    school: 'National High School',
-    period: '2018 – 2020',
-    status: 'Completed',
-    description:
-      'Completed the Science, Technology, Engineering, and Mathematics strand with focus on computer science fundamentals.',
-    highlights: ['With Honors', 'Best in Computer Science'],
+    degree: 'BS Information Technology Major in Service Management',
+    school: 'University of Mindanao - Matina Campus',
+    location: 'Davao City',
+    period: '2027 (Expected)',
   },
 ]
 </script>
@@ -49,21 +37,15 @@ const education = [
         >
           <div class="edu-top">
             <div class="edu-header">
-              <h3 class="edu-degree">{{ edu.degree }}</h3>
-              <span class="edu-status">{{ edu.status }}</span>
+              <div>
+                <h3 class="edu-school">{{ edu.school }}</h3>
+                <span class="edu-degree">{{ edu.degree }}</span>
+              </div>
+              <div class="edu-place">
+                <span>{{ edu.location }}</span>
+                <span class="edu-period">{{ edu.period }}</span>
+              </div>
             </div>
-            <div class="edu-meta">
-              <span class="edu-school">{{ edu.school }}</span>
-              <span class="edu-period">{{ edu.period }}</span>
-            </div>
-          </div>
-          <p class="edu-desc">{{ edu.description }}</p>
-          <div class="edu-highlights">
-            <span
-              class="edu-badge"
-              v-for="h in edu.highlights"
-              :key="h"
-            >{{ h }}</span>
           </div>
         </div>
       </div>
@@ -101,38 +83,18 @@ const education = [
 }
 
 .edu-degree {
-  font-size: 17px;
+  font-size: 14px;
   font-weight: 400;
-  color: var(--text-primary);
+  color: var(--text-secondary);
   letter-spacing: -0.01em;
   line-height: 1.4;
 }
 
-.edu-status {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 400;
-  padding: 3px 10px;
-  border-radius: var(--radius-full);
-  flex-shrink: 0;
-  margin-top: 3px;
-  background: var(--accent-dim);
-  color: var(--text-muted);
-  border: 1px solid var(--border);
-}
-
-.edu-meta {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  flex-wrap: wrap;
-  margin-bottom: 12px;
-}
-
 .edu-school {
-  font-size: 14px;
-  color: var(--text-secondary);
-  font-weight: 400;
+  font-size: 17px;
+  color: var(--text-primary);
+  font-weight: 600;
+  margin: 0 0 4px;
 }
 
 .edu-period {
@@ -141,31 +103,17 @@ const education = [
   color: var(--text-muted);
 }
 
-.edu-desc {
-  font-size: 15px;
-  color: var(--text-secondary);
-  line-height: 1.75;
-  margin-bottom: 18px;
-}
-
-.edu-highlights {
+.edu-place {
   display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-}
-
-.edu-badge {
-  font-size: 12px;
-  font-weight: 400;
-  color: var(--text-muted);
-  background: var(--accent-dim);
-  border: 1px solid var(--border);
-  padding: 3px 10px;
-  border-radius: var(--radius-full);
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  font-size: 14px;
+  color: var(--text-secondary);
 }
 
 @media (max-width: 480px) {
   .edu-header { flex-direction: column; }
+  .edu-place { align-items: flex-start; }
 }
 </style>
-

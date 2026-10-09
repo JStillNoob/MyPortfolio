@@ -12,7 +12,6 @@ const route = useRoute()
 
 const navItems = [
   'About',
-  'Experience',
   'Projects',
   'Technologies',
   'Certifications',
@@ -21,7 +20,6 @@ const navItems = [
 
 const sectionIds = [
   'about',
-  'experience',
   'projects',
   'technologies',
   'certifications',
@@ -30,14 +28,18 @@ const sectionIds = [
 
 const routeMap: Record<string, number> = {
   '/about-more': 0,
-  '/experience': 1,
-  '/projects': 2,
-  '/technologies': 3,
-  '/certifications': 4,
-  '/contact': 5,
+  '/experience': 0,
+  '/projects': 1,
+  '/technologies': 2,
+  '/certifications': 3,
+  '/contact': 4,
 }
 
 const currentScrollIndex = ref(0)
+let scrollFrame: number | null = null
+
+const getScrollBehavior = (): ScrollBehavior =>
+  window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
 
 const activeNav = computed(() => {
   if (route.path !== '/') {
@@ -48,7 +50,7 @@ const activeNav = computed(() => {
 
 const scrollToSection = (id: string) => {
   if (id === 'about') {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    window.scrollTo({ top: 0, behavior: getScrollBehavior() })
     return
   }
   const el = document.getElementById(id)
@@ -61,7 +63,7 @@ const scrollToSection = (id: string) => {
 
     window.scrollTo({
       top: targetY,
-      behavior: 'smooth',
+      behavior: getScrollBehavior(),
     })
   }
 }
@@ -120,17 +122,27 @@ const updateActiveOnScroll = () => {
   }
 }
 
+const handleScroll = () => {
+  if (scrollFrame !== null) return
+  scrollFrame = window.requestAnimationFrame(() => {
+    scrollFrame = null
+    updateActiveOnScroll()
+  })
+}
+
 onMounted(() => {
-  window.addEventListener('scroll', updateActiveOnScroll, { passive: true })
+  window.addEventListener('scroll', handleScroll, { passive: true })
+  updateActiveOnScroll()
 })
 
 onUnmounted(() => {
-  window.removeEventListener('scroll', updateActiveOnScroll)
+  window.removeEventListener('scroll', handleScroll)
+  if (scrollFrame !== null) window.cancelAnimationFrame(scrollFrame)
 })
 
 watch(() => route.path, (newPath) => {
   if (newPath === '/' && pendingNavIndex.value === null) {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    window.scrollTo({ top: 0, behavior: getScrollBehavior() })
     currentScrollIndex.value = 0
   }
 })

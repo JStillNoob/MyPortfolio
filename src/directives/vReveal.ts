@@ -4,6 +4,11 @@ export interface RevealOptions {
   delay?: number
 }
 
+type RevealElement = HTMLElement & {
+  _revealObserver?: IntersectionObserver
+  _revealTimers?: number[]
+}
+
 export const vReveal: Directive<HTMLElement, RevealOptions | undefined> = {
   mounted(el, binding) {
     if (typeof window === 'undefined') return
@@ -14,12 +19,20 @@ export const vReveal: Directive<HTMLElement, RevealOptions | undefined> = {
       return
     }
 
+    const revealEl = el as RevealElement
+    revealEl._revealTimers = []
+
     if (!el.classList.contains('reveal-stagger')) {
       el.classList.add('reveal-on-scroll')
+    } else {
+      Array.from(el.children).forEach((child, index) => {
+        const delay = Math.min((index + 1) * 55, 385)
+        ;(child as HTMLElement).style.setProperty('--reveal-delay', `${delay}ms`)
+      })
     }
 
     if (binding.value?.delay) {
-      el.style.transitionDelay = `${binding.value.delay}ms`
+      el.style.setProperty('--reveal-delay', `${binding.value.delay}ms`)
     }
 
     const reveal = () => {
@@ -27,6 +40,17 @@ export const vReveal: Directive<HTMLElement, RevealOptions | undefined> = {
       if (observer) {
         observer.unobserve(el)
       }
+
+      const cleanupTimer = window.setTimeout(() => {
+        if (el.classList.contains('reveal-stagger')) {
+          Array.from(el.children).forEach(child => {
+            ;(child as HTMLElement).style.willChange = 'auto'
+          })
+        } else {
+          el.style.willChange = 'auto'
+        }
+      }, 900)
+      revealEl._revealTimers?.push(cleanupTimer)
     }
 
     const observer = new IntersectionObserver(
@@ -38,13 +62,13 @@ export const vReveal: Directive<HTMLElement, RevealOptions | undefined> = {
         })
       },
       {
-        threshold: 0.01,
-        rootMargin: '40px 0px -20px 0px',
+        threshold: 0.08,
+        rootMargin: '0px 0px -8% 0px',
       }
     )
 
     observer.observe(el)
-    ;(el as any)._revealObserver = observer
+    ;(el as RevealElement)._revealObserver = observer
 
     // Immediate and post-route-transition check for elements already in viewport
     const checkImmediate = () => {
@@ -54,15 +78,16 @@ export const vReveal: Directive<HTMLElement, RevealOptions | undefined> = {
         reveal()
       }
     }
+    revealEl._revealTimers.push(window.setTimeout(checkImmediate, 100))
+    revealEl._revealTimers.push(window.setTimeout(checkImmediate, 350))
     requestAnimationFrame(checkImmediate)
-    setTimeout(checkImmediate, 100)
-    setTimeout(checkImmediate, 350)
   },
   unmounted(el) {
-    if ((el as any)._revealObserver) {
-      ;(el as any)._revealObserver.disconnect()
-      delete (el as any)._revealObserver
-    }
+    const revealEl = el as RevealElement
+    revealEl._revealObserver?.disconnect()
+    revealEl._revealTimers?.forEach(timer => window.clearTimeout(timer))
+    delete revealEl._revealObserver
+    delete revealEl._revealTimers
   },
 }
 

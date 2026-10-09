@@ -518,7 +518,7 @@ const renderTechIcon = (tech: string): string => {
         </p>
 
         <!-- 2-Column Projects Grid -->
-        <div class="projects-grid reveal-stagger" v-reveal>
+        <div class="projects-grid reveal-stagger reveal-stagger-scale" v-reveal>
           <div
             v-for="proj in paginatedProjects"
             :key="proj.title"
@@ -675,7 +675,8 @@ const renderTechIcon = (tech: string): string => {
   padding: 16px 20px 14px 20px;
   box-sizing: border-box;
   position: relative;
-  transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+  transition: opacity 0.58s cubic-bezier(0.16, 1, 0.3, 1), border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+  transition-delay: var(--reveal-delay, 0ms);
 }
 
 .project-card:hover {

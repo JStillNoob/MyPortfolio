@@ -26,6 +26,30 @@ const stats = [
   { value: '2+', label: 'Client Collaborations' },
 ]
 
+interface EducationItem {
+  degree: string
+  school: string
+  logo?: string
+  location: string
+  period: string
+}
+
+const education = ref<EducationItem[]>([
+  {
+    degree: 'BS Information Technology Major in Service Management',
+    school: 'University of Mindanao - Matina Campus',
+    logo: '/UM_logo.png',
+    location: 'Davao City',
+    period: '2027 (Expected)',
+  },
+])
+
+const failedSchoolLogos = ref<Record<number, boolean>>({})
+
+const onSchoolLogoError = (idx: number) => {
+  failedSchoolLogos.value[idx] = true
+}
+
 const currentImage = ref(0)
 const isModalOpen = ref(false)
 const modalImageIndex = ref(0)
@@ -215,13 +239,54 @@ const recommendations = [
         </div>
       </section>
 
-      <!-- 02 — First Real Client Work (Clean grid, NO heavy card container) -->
+      <!-- 02 — Education -->
+      <section id="s-education" class="story-section" v-reveal>
+        <h2 class="section-heading">Education</h2>
+
+        <div class="edu-story-list reveal-stagger" v-reveal>
+          <div
+            v-for="(edu, idx) in education"
+            :key="idx"
+            class="edu-story-item"
+          >
+            <div class="edu-school-row">
+              <div class="school-logo-wrap" :title="edu.logo ? `${edu.school} logo` : 'School logo placeholder (add logo path in education data)'">
+                <img
+                  v-if="edu.logo && !failedSchoolLogos[idx]"
+                  :src="edu.logo"
+                  :alt="`${edu.school} logo`"
+                  class="school-logo-img"
+                  @error="onSchoolLogoError(idx)"
+                />
+                <div v-else class="school-logo-placeholder">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                    <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                  </svg>
+                </div>
+              </div>
+
+              <div class="edu-school-details">
+                <h3 class="edu-school-name">{{ edu.school }}</h3>
+                <span class="edu-story-degree">{{ edu.degree }}</span>
+              </div>
+
+              <div class="edu-place-details">
+                <span class="edu-location">{{ edu.location }}</span>
+                <span class="edu-story-period">{{ edu.period }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 03 — First Real Client Work (Clean grid, NO heavy card container) -->
       <section id="s-client" class="story-section" v-reveal>
         <h2 class="section-heading">First Real Client Work</h2>
 
         <div class="client-story-layout">
           <!-- Single Project Image Carousel -->
-          <div class="client-visual-col">
+          <div class="client-visual-col reveal-scale" v-reveal>
             <img
               :src="clientProject.images[currentImage]"
               :alt="`${clientProject.title} screenshot ${currentImage + 1}`"
@@ -530,7 +595,136 @@ const recommendations = [
   font-family: var(--font-mono);
 }
 
-/* 02 — Client Work: Clean editorial presentation without boxed card */
+/* ── Education Section ──────────────────────────────────────── */
+.edu-story-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.edu-story-item {
+  padding: 30px 0;
+  border-bottom: 1px solid var(--border-subtle);
+  transition: transform 0.2s ease;
+}
+
+.edu-story-item:first-child {
+  padding-top: 4px;
+}
+
+.edu-story-item:last-child {
+  border-bottom: none;
+  padding-bottom: 4px;
+}
+
+.edu-story-degree {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.edu-school-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 64px;
+  width: 100%;
+}
+
+.school-logo-wrap {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+  transition: border-color var(--transition), transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.school-logo-wrap:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.school-logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 2px;
+  box-sizing: border-box;
+  display: block;
+}
+
+.school-logo-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: var(--text-muted);
+  background: var(--bg-card);
+  transition: color var(--transition);
+}
+
+.school-logo-wrap:hover .school-logo-placeholder {
+  color: var(--accent);
+}
+
+.edu-school-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 4px;
+}
+
+.edu-school-name {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.35;
+  margin: 0;
+}
+
+.edu-place-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 4px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.edu-location {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.edu-story-period {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+@media (max-width: 600px) {
+  .edu-school-row {
+    flex-wrap: wrap;
+  }
+
+  .edu-place-details {
+    width: 100%;
+    align-items: flex-start;
+    margin-left: 80px;
+  }
+}
+
+/* 03 — Client Work: Clean editorial presentation without boxed card */
 .client-story-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;

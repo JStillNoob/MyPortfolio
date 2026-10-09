@@ -1,171 +1,118 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
+import LogoLoop, { type LogoItem, type LogoItemNode } from './LogoLoop.vue'
+import TechnologyPill from './TechnologyPill.vue'
+import { allTechnologies, type Technology } from '../data/technologies'
+
+type TechnologyLoopItem = LogoItemNode & { technology: Technology }
 
 const router = useRouter()
 
-const categories = [
-  {
-    label: 'Frontend',
-    icon: '⬡',
-    skills: [
-      { name: 'Vue.js',       level: 90 },
-      { name: 'TypeScript',   level: 82 },
-      { name: 'HTML & CSS',   level: 95 },
-      { name: 'JavaScript',   level: 88 },
-      { name: 'React',        level: 65 },
-    ],
-  },
-  {
-    label: 'Backend',
-    icon: '⬡',
-    skills: [
-      { name: 'Node.js',      level: 80 },
-      { name: 'PHP / Laravel', level: 85 },
-      { name: 'REST APIs',    level: 88 },
-      { name: 'MySQL',        level: 80 },
-      { name: 'PostgreSQL',   level: 70 },
-    ],
-  },
-  {
-    label: 'Tools & DevOps',
-    icon: '⬡',
-    skills: [
-      { name: 'Git / GitHub', level: 92 },
-      { name: 'Vite',         level: 85 },
-      { name: 'Docker',       level: 60 },
-      { name: 'Linux / CLI',  level: 75 },
-      { name: 'Figma',        level: 65 },
-    ],
-  },
-]
+const logoRows: TechnologyLoopItem[][] = Array.from({ length: 4 }, (_, rowIndex) =>
+  allTechnologies
+    .filter((_, technologyIndex) => technologyIndex % 4 === rowIndex)
+    .map(technology => ({
+      node: '',
+      title: technology.name,
+      ariaLabel: technology.name,
+      technology,
+    })),
+)
 
-const levelLabel = (lvl: number) => {
-  if (lvl >= 85) return 'Expert'
-  if (lvl >= 70) return 'Proficient'
-  return 'Familiar'
-}
+const rowDirections = ['left', 'right', 'left', 'right'] as const
+const rowSpeeds = [22, 18, 24, 20]
+
+const getTechnology = (item: LogoItem) =>
+  (item as TechnologyLoopItem).technology
 </script>
 
 <template>
-  <section id="technologies" class="section">
+  <section id="technologies" class="section technologies-section" aria-label="Technologies">
     <div class="container">
-      <div class="section-top-bar">
+      <div class="technologies-heading" v-reveal>
+        <h2 class="section-title">Technologies</h2>
         <button class="view-more-btn" @click="router.push('/technologies')">
-          <span>View More</span>
+          <span>View All</span>
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
           </svg>
         </button>
       </div>
 
-      <div class="section-header" v-reveal>
-        <h2 class="section-title">What I work with</h2>
-      </div>
-
-      <div class="skills-grid reveal-stagger" v-reveal>
-        <div
-          class="skill-group"
-          v-for="cat in categories"
-          :key="cat.label"
+      <div class="technology-loops" v-reveal>
+        <LogoLoop
+          v-for="(row, index) in logoRows"
+          :key="index"
+          :logos="row"
+          :speed="rowSpeeds[index]"
+          :direction="rowDirections[index]"
+          :logo-height="50"
+          :gap="18"
+          :hover-speed="0"
+          :scale-on-hover="true"
+          :fade-out="true"
+          aria-label="Technology logos"
+          class-name="technology-logo-loop"
         >
-          <h3 class="cat-title">{{ cat.label }}</h3>
-          <div class="skill-list">
-            <div class="skill-item" v-for="skill in cat.skills" :key="skill.name">
-              <div class="skill-info">
-                <span class="skill-name">{{ skill.name }}</span>
-                <span class="skill-level">{{ levelLabel(skill.level) }}</span>
-              </div>
-              <div class="skill-bar-track">
-                <div
-                  class="skill-bar-fill"
-                  :style="{ width: skill.level + '%' }"
-                ></div>
-              </div>
-            </div>
-          </div>
-        </div>
+          <template #renderItem="{ item }">
+            <TechnologyPill :technology="getTechnology(item)" compact />
+          </template>
+        </LogoLoop>
       </div>
     </div>
   </section>
 </template>
 
 <style scoped>
-/* skill-group: plain column, no card background */
-.skills-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0 40px;
-}
-
-.skill-group {
-  padding: 32px 0;
-  border-bottom: 1px solid var(--border-subtle);
-}
-
-.skill-group:first-child {
-  border-top: 1px solid var(--border-subtle);
-}
-
-.cat-title {
-  font-size: 12px;
-  font-weight: 400;
-  color: var(--text-muted);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-bottom: 20px;
-  font-family: var(--font-mono);
-}
-
-.skill-list {
+.technologies-section {
   display: flex;
-  flex-direction: column;
-  gap: 16px;
+  align-items: center;
+  padding-top: 60px;
+  padding-bottom: 60px;
 }
 
-.skill-item {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+.technologies-section > .container {
+  position: relative;
+  top: -28px;
 }
 
-.skill-info {
+.technologies-heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 28px;
 }
 
-.skill-name {
-  font-size: 14px;
-  font-weight: 400;
-  color: var(--text-primary);
-}
-
-.skill-level {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--text-muted);
-}
-
-.skill-bar-track {
+.technology-loops {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
   width: 100%;
-  height: 3px;
-  background: var(--border-subtle);
-  border-radius: 3px;
   overflow: hidden;
 }
 
-.skill-bar-fill {
-  height: 100%;
-  background: var(--accent);
-  border-radius: 3px;
-  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+.technology-logo-loop {
+  width: 100%;
 }
 
-@media (max-width: 700px) {
-  .skills-grid { grid-template-columns: 1fr; }
-}
+@media (max-width: 600px) {
+  .technologies-section {
+    padding-top: 84px;
+    padding-bottom: 48px;
+  }
 
-@media (min-width: 700px) and (max-width: 900px) {
-  .skills-grid { grid-template-columns: repeat(2, 1fr); }
+  .technologies-heading {
+    align-items: flex-end;
+    gap: 16px;
+  }
+
+  .technologies-section > .container {
+    top: -16px;
+  }
+
+  .technology-loops {
+    gap: 10px;
+  }
 }
 </style>

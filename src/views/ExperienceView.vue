@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -34,26 +35,20 @@ const experiences = [
   },
 ]
 
-const education = [
+const education = ref([
   {
-    degree: 'Bachelor of Science in Information Technology',
-    school: 'University of the Philippines',
-    period: '2020 — 2024',
-    status: 'Graduated',
-    description:
-      'Focused on software engineering, web application development, database management systems, and human-computer interaction. Graduated with capstone recognition for full-stack system architecture.',
-    highlights: ["Dean's List", 'Capstone Award Winner', 'Tech Club President'],
+    degree: 'BS Information Technology Major in Service Management',
+    school: 'University of Mindanao - Matina Campus',
+    logo: '/UM_logo.png',
+    location: 'Davao City',
+    period: '2027 (Expected)',
   },
-  {
-    degree: 'Senior High School — STEM Strand',
-    school: 'National High School',
-    period: '2018 — 2020',
-    status: 'Completed',
-    description:
-      'Completed the Science, Technology, Engineering, and Mathematics curriculum with honors and advanced coursework in computer programming.',
-    highlights: ['With Honors', 'Best in Computer Science'],
-  },
-]
+])
+
+const failedSchoolLogos = ref<Record<number, boolean>>({})
+const onSchoolLogoError = (idx: number) => {
+  failedSchoolLogos.value[idx] = true
+}
 </script>
 
 <template>
@@ -74,7 +69,7 @@ const education = [
       <!-- Professional Experience -->
       <div class="content-group" v-reveal>
         <h2 class="group-heading">Work &amp; Professional Roles</h2>
-        <div class="item-list reveal-stagger" v-reveal>
+        <div class="item-list reveal-stagger reveal-stagger-scale" v-reveal>
           <div v-for="(exp, idx) in experiences" :key="idx" class="list-row">
             <div class="row-top">
               <div class="row-header">
@@ -100,21 +95,34 @@ const education = [
       <!-- Education Journey -->
       <div class="content-group" v-reveal>
         <h2 class="group-heading">Academic Journey</h2>
-        <div class="item-list reveal-stagger" v-reveal>
+        <div class="item-list reveal-stagger reveal-stagger-scale" v-reveal>
           <div v-for="(edu, idx) in education" :key="idx" class="list-row">
             <div class="row-top">
-              <div class="row-header">
-                <h3 class="row-title">{{ edu.degree }}</h3>
-                <span class="status-badge">{{ edu.status }}</span>
+              <div class="row-meta edu-school-row">
+                <div class="school-logo-wrap" :title="edu.logo ? `${edu.school} logo` : 'School logo placeholder'">
+                  <img
+                    v-if="edu.logo && !failedSchoolLogos[idx]"
+                    :src="edu.logo"
+                    :alt="`${edu.school} logo`"
+                    class="school-logo-img"
+                    @error="onSchoolLogoError(idx)"
+                  />
+                  <div v-else class="school-logo-placeholder">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                      <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                    </svg>
+                  </div>
+                </div>
+                <div class="school-details">
+                  <h3 class="education-school">{{ edu.school }}</h3>
+                  <span class="education-degree">{{ edu.degree }}</span>
+                </div>
+                <div class="education-place">
+                  <span class="education-location">{{ edu.location }}</span>
+                  <span class="meta-secondary">{{ edu.period }}</span>
+                </div>
               </div>
-              <div class="row-meta">
-                <span class="meta-primary">{{ edu.school }}</span>
-                <span class="meta-secondary">{{ edu.period }}</span>
-              </div>
-            </div>
-            <p class="row-desc">{{ edu.description }}</p>
-            <div class="tags-wrap">
-              <span v-for="h in edu.highlights" :key="h" class="tag-pill">{{ h }}</span>
             </div>
           </div>
         </div>
@@ -203,6 +211,90 @@ const education = [
   color: var(--text-muted);
 }
 
+.edu-school-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 64px;
+  width: 100%;
+}
+
+.school-logo-wrap {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+  transition: border-color var(--transition), transform 0.2s ease;
+}
+
+.school-logo-wrap:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.school-logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 2px;
+  box-sizing: border-box;
+  display: block;
+}
+
+.school-logo-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: var(--text-muted);
+  background: var(--bg-card);
+}
+
+.school-logo-wrap:hover .school-logo-placeholder {
+  color: var(--accent);
+}
+
+.school-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 4px;
+}
+
+.education-school {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.35;
+  margin: 0;
+}
+
+.education-degree,
+.education-location {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.education-place {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 4px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
 .row-desc {
   font-size: 15px;
   color: var(--text-secondary);
@@ -246,6 +338,16 @@ const education = [
   .row-header {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .edu-school-row {
+    flex-wrap: wrap;
+  }
+
+  .education-place {
+    width: 100%;
+    align-items: flex-start;
+    margin-left: 80px;
   }
 }
 </style>

@@ -23,7 +23,6 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
 
 const navLinks = [
   { label: 'About',          path: '/' },
-  { label: 'Experience',     path: '/experience' },
   { label: 'Projects',       path: '/projects' },
   { label: 'Technologies',   path: '/technologies' },
   { label: 'Certifications', path: '/certifications' },

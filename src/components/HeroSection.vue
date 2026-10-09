@@ -2,9 +2,21 @@
 import PixelTransition from './PixelTransition.vue';
 import { useTheme } from '../composables/useTheme';
 import { useRouter } from 'vue-router';
+import { ref } from 'vue';
+import { useScrollParallax } from '../composables/useScrollParallax';
 
 const { isDark } = useTheme();
 const router = useRouter();
+const heroRef = ref<HTMLElement | null>(null);
+const avatarMotionRef = ref<HTMLElement | null>(null);
+
+useScrollParallax(heroRef, avatarMotionRef, {
+  desktopDistance: 18,
+  tabletDistance: 8,
+  start: 'top top',
+  end: 'bottom top',
+  scrub: 0.8,
+});
 
 const imgPrimary = '/jessie_pixel_image.png';
 const imgSecondary = '/resumeIMG.png';
@@ -34,7 +46,7 @@ const socials = [
 </script>
 
 <template>
-  <section id="about" class="hero section">
+  <section id="about" ref="heroRef" class="hero section">
     <div class="container">
       <!-- Top div for View More button link -->
       <div class="section-top-bar">
@@ -48,20 +60,24 @@ const socials = [
 
       <!-- Avatar + Name row -->
       <div class="hero-identity fade-in">
-        <div class="avatar-wrapper">
-          <PixelTransition
-            :grid-size="10"
-            :pixel-color="isDark ? '#f6f6f6' : '#18181c'"
-            :animation-step-duration="0.35"
-            class-name="avatar-pixel-card"
-          >
-            <template #first>
-              <img :src="imgPrimary" alt="Jessie Alegado Jr." class="avatar-img" />
-            </template>
-            <template #second>
-              <img :src="imgSecondary" alt="Jessie Alegado Jr." class="avatar-img" />
-            </template>
-          </PixelTransition>
+        <div ref="avatarMotionRef" class="avatar-motion-layer">
+          <div class="avatar-entry-layer">
+            <div class="avatar-wrapper">
+              <PixelTransition
+                :grid-size="10"
+                :pixel-color="isDark ? '#f6f6f6' : '#18181c'"
+                :animation-step-duration="0.35"
+                class-name="avatar-pixel-card"
+              >
+                <template #first>
+                  <img :src="imgPrimary" alt="Jessie Alegado Jr." class="avatar-img" />
+                </template>
+                <template #second>
+                  <img :src="imgSecondary" alt="Jessie Alegado Jr." class="avatar-img" />
+                </template>
+              </PixelTransition>
+            </div>
+          </div>
         </div>
         <div class="identity-text">
           <h1 class="hero-name">Jessie Alegado Jr.</h1>
@@ -115,6 +131,21 @@ const socials = [
   box-sizing: border-box;
   padding-top: 108px;
   padding-bottom: 60px;
+}
+
+.avatar-motion-layer {
+  flex: 0 0 auto;
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.avatar-entry-layer {
+  animation: avatarScaleIn 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes avatarScaleIn {
+  from { transform: scale(0.965); }
+  to { transform: scale(1); }
 }
 
 

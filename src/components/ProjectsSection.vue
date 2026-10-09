@@ -1,8 +1,20 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
+import { ref } from 'vue'
 import DepthCarousel, { type DepthCarouselCardItem } from './DepthCarousel.vue'
+import { useScrollParallax } from '../composables/useScrollParallax'
 
 const router = useRouter()
+const sectionRef = ref<HTMLElement | null>(null)
+const showcaseMotionRef = ref<HTMLElement | null>(null)
+
+useScrollParallax(sectionRef, showcaseMotionRef, {
+  desktopDistance: -18,
+  tabletDistance: -8,
+  start: 'top bottom',
+  end: 'bottom top',
+  scrub: 0.9,
+})
 
 const selectedProjects: DepthCarouselCardItem[] = [
   {
@@ -76,7 +88,7 @@ const selectedProjects: DepthCarouselCardItem[] = [
 </script>
 
 <template>
-  <section id="projects" class="section">
+  <section id="projects" ref="sectionRef" class="section">
     <div class="container">
       <div class="section-top-bar">
         <button class="view-more-btn" @click="router.push('/projects')">
@@ -92,36 +104,51 @@ const selectedProjects: DepthCarouselCardItem[] = [
       </div>
 
       <!-- Selected Projects 3D DepthCarousel Showcase -->
-      <div class="depth-carousel-wrapper" v-reveal>
-        <DepthCarousel
-          :items="selectedProjects"
-          :card-width="410"
-          :card-height="550"
-          :radius="20"
-          :depth="220"
-          :spread="95"
-          :tilt="20"
-          tilt-direction="right"
-          :perspective="1400"
-          :visible-cards="4"
-          :falloff="0.22"
-          :blur="6"
-          :duration="650"
-          autoplay
-          :autoplay-delay="3800"
-          loop
-          show-controls
-          show-indicators
-        />
+      <div ref="showcaseMotionRef" class="project-motion-shell">
+        <div class="depth-carousel-wrapper reveal-scale" v-reveal>
+          <DepthCarousel
+            :items="selectedProjects"
+            :card-width="410"
+            :card-height="550"
+            :radius="20"
+            :depth="220"
+            :spread="95"
+            :tilt="20"
+            tilt-direction="right"
+            :perspective="1400"
+            :visible-cards="4"
+            :falloff="0.22"
+            :blur="6"
+            :duration="650"
+            autoplay
+            :autoplay-delay="3800"
+            loop
+            show-controls
+            show-indicators
+          />
+        </div>
       </div>
     </div>
   </section>
 </template>
 
 <style scoped>
+.project-motion-shell {
+  width: 100%;
+  transform: translateZ(0);
+  will-change: transform;
+}
+
 .depth-carousel-wrapper {
   width: 100%;
   position: relative;
   padding: 10px 0 20px;
+}
+
+@media (prefers-reduced-motion: reduce), (max-width: 700px) {
+  .project-motion-shell {
+    transform: none !important;
+    will-change: auto;
+  }
 }
 </style>
